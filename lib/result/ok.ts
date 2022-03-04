@@ -47,6 +47,10 @@ class OkImpl<T> implements Result<T, never> {
     return op(this.val);
   }
 
+  and<E>(other: Result<T, E>): Result<T, E> {
+    return other;
+  }
+
   ok(): Option<T> {
     return Some(this.val);
   }

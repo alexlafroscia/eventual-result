@@ -83,6 +83,12 @@ Deno.test("#mapOr", () => {
   assertEquals(lengthOrDefault, 8);
 });
 
+Deno.test("#and", () => {
+  const result = Ok("foo").and(Ok("bar"));
+
+  assertEquals(result, Ok("bar"));
+});
+
 Deno.test("#ok", () => {
   const ok = Ok("whatever");
 

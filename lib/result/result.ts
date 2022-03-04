@@ -22,6 +22,8 @@ export interface Result<T, E> {
   mapErr<F>(op: (error: E) => F): Result<T, F>;
   mapOr<U>(fallback: U, op: (value: T) => U): U;
 
+  and(other: Result<T, E>): Result<T, E>;
+
   ok(): Option<T>;
   err(): Option<E>;
 

@@ -47,6 +47,10 @@ class ErrImpl<E> implements Result<never, E> {
     return fallback;
   }
 
+  and<T>(_other: Result<T, E>): ErrImpl<E> {
+    return this;
+  }
+
   ok(): Option<never> {
     return None;
   }

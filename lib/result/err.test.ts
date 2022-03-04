@@ -79,6 +79,13 @@ Deno.test("#mapOr", () => {
   assertEquals(lengthOrDefault, 0);
 });
 
+Deno.test("#and", () => {
+  const err = Err("foo");
+  const result = err.and(Err("bar"));
+
+  assertStrictEquals(result, err);
+});
+
 Deno.test("#ok", () => {
   const err = Err("whatever");
 
