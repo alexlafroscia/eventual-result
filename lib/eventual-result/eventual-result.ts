@@ -1,11 +1,9 @@
-import { Err, Ok, type Result as ResultWithErrorType } from "../result/mod.ts";
+import { Err, Ok, type Result } from "../result/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
-
-type Result<T> = ResultWithErrorType<T, unknown>;
 
 type MaybeAsync<T> = T | PromiseLike<T>;
 
-export class EventualResult<T> implements Promise<Result<T>> {
+export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
   private promise: Promise<T>;
 
   constructor(originator: Promise<T> | (() => Promise<T>)) {
@@ -18,7 +16,7 @@ export class EventualResult<T> implements Promise<Result<T>> {
 
   /* === Result Methods === */
 
-  map<U>(op: (value: T) => U): EventualResult<U> {
+  map<U>(op: (value: T) => U): EventualResult<U, E> {
     return new EventualResult(this.promise.then(
       (value) => op(value),
     ));
@@ -30,7 +28,9 @@ export class EventualResult<T> implements Promise<Result<T>> {
     return result.mapOr(fallback, op);
   }
 
-  andThen<U>(op: (value: T) => MaybeAsync<Result<U>>): EventualResult<U> {
+  andThen<U, F>(
+    op: (value: T) => MaybeAsync<Result<U, F>>,
+  ): EventualResult<U, F> {
     return new EventualResult(async () => {
       const result = await op(await this.promise);
 
@@ -71,19 +71,19 @@ export class EventualResult<T> implements Promise<Result<T>> {
 
   /* === Promise Methods === */
 
-  then<TResult1 = Result<T>, TResult2 = never>(
+  then<TResult1 = Result<T, E>, TResult2 = never>(
     onfulfilled?:
-      | ((value: Result<T>) => MaybeAsync<TResult1>)
+      | ((value: Result<T, E>) => MaybeAsync<TResult1>)
       | undefined
       | null,
     onrejected?:
-      | ((reason: unknown) => MaybeAsync<TResult2>)
+      | ((reason: E) => MaybeAsync<TResult2>)
       | undefined
       | null,
   ): Promise<TResult1 | TResult2> {
     return this.promise.then(
       (value) => Ok(value),
-      (error: unknown) => Err(error),
+      (error: E) => Err(error),
     ).then(onfulfilled, onrejected);
   }
 
@@ -92,11 +92,11 @@ export class EventualResult<T> implements Promise<Result<T>> {
       | ((reason: unknown) => MaybeAsync<TResult>)
       | undefined
       | null,
-  ): Promise<Result<T> | TResult> {
+  ): Promise<Result<T, E> | TResult> {
     return this.then(undefined, onrejected);
   }
 
-  finally(onfinally?: (() => void) | undefined | null): Promise<Result<T>> {
+  finally(onfinally?: (() => void) | undefined | null): Promise<Result<T, E>> {
     return this.then().finally(onfinally);
   }
 
