@@ -16,7 +16,7 @@ export class EventualResult<T> implements Promise<Result<T>> {
     }
   }
 
-  /** === Result Methods === */
+  /* === Result Methods === */
 
   map<U>(op: (value: T) => U): EventualResult<U> {
     return new EventualResult(this.promise.then(
