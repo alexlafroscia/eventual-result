@@ -89,6 +89,18 @@ Deno.test("#and", () => {
   assertEquals(result, Ok("bar"));
 });
 
+Deno.test("#or", () => {
+  const result = Ok("foo").or(Ok("bar"));
+
+  assertEquals(result, Ok("foo"));
+});
+
+Deno.test("#orElse", () => {
+  const result = Ok("foo").orElse(() => Ok("bar"));
+
+  assertEquals(result, Ok("foo"));
+});
+
 Deno.test("#ok", () => {
   const ok = Ok("whatever");
 

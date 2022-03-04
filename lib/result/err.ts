@@ -51,6 +51,14 @@ class ErrImpl<E> implements Result<never, E> {
     return this;
   }
 
+  or<T>(other: Result<T, E>): Result<T, E> {
+    return other;
+  }
+
+  orElse<T>(other: () => Result<T, E>): Result<T, E> {
+    return other();
+  }
+
   ok(): Option<never> {
     return None;
   }

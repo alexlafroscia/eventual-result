@@ -51,6 +51,14 @@ class OkImpl<T> implements Result<T, never> {
     return other;
   }
 
+  or<E>(_other: Result<T, E>): Result<T, E> {
+    return this;
+  }
+
+  orElse<E>(_other: () => Result<T, E>): Result<T, E> {
+    return this;
+  }
+
   ok(): Option<T> {
     return Some(this.val);
   }

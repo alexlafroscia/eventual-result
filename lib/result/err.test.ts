@@ -86,6 +86,20 @@ Deno.test("#and", () => {
   assertStrictEquals(result, err);
 });
 
+Deno.test("#or", () => {
+  const err = Err("foo");
+  const result = err.or(Err("bar"));
+
+  assertEquals(result, Err("bar"));
+});
+
+Deno.test("#orElse", () => {
+  const err = Err("foo");
+  const result = err.orElse(() => Err("bar"));
+
+  assertEquals(result, Err("bar"));
+});
+
 Deno.test("#ok", () => {
   const err = Err("whatever");
 

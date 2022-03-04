@@ -24,6 +24,9 @@ export interface Result<T, E> {
 
   and(other: Result<T, E>): Result<T, E>;
 
+  or(other: Result<T, E>): Result<T, E>;
+  orElse(other: () => Result<T, E>): Result<T, E>;
+
   ok(): Option<T>;
   err(): Option<E>;
 
