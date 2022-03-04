@@ -26,7 +26,7 @@ Deno.test("#expect", () => {
   assertEquals(Some(1).expect("Nope"), 1);
 });
 
-Deno.test("andThen", () => {
+Deno.test("#andThen", () => {
   assertEquals(Some(1).andThen((val) => Some(val + 1)), Some(2));
 });
 
