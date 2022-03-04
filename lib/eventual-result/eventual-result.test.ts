@@ -149,6 +149,16 @@ Deno.test("#andThen", async (t) => {
       assertEquals(await eventuallyBetter, Err(new Error("boo")));
     });
   });
+
+  await t.step("when the operation returns an `EventualResult`", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+    const eventuallyBetter = eventuallyOk.andThen((value) => {
+      return new EventualResult(Promise.resolve(value + "!"));
+    });
+
+    assert(eventuallyBetter instanceof EventualResult);
+    assertEquals(await eventuallyBetter, Ok("ok!"));
+  });
 });
 
 Deno.test("#unwrap", async () => {
