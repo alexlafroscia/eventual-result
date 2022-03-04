@@ -51,7 +51,9 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: npm
+          path: npm
       - name: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: cd npm && npm publish
+        working-directory: npm
+        run: npm publish
