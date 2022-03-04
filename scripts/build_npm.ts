@@ -17,7 +17,8 @@ await build({
   // package.json properties
   package: {
     name: "eventual-result",
-    version: Deno.args[0],
+    // Strip the `v` from the tag
+    version: Deno.args[0]?.replace(/^v/, ""),
     description:
       "A `Result` and `Option` implementation that works with `Promise`",
     license: "MIT",
