@@ -3,6 +3,18 @@ import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 type MaybeAsync<T> = T | PromiseLike<T>;
 
+/**
+ * An `EventualResult` is a cross between a `Promise` and a `Result`.
+ *
+ * Unlike a `Promise` it will never reject, and the same methods that can be
+ * called on a `Result` can be called on an `EventualResult`. This allows, for
+ * example, for an eventual successful result to tbe transformed without having
+ * to resolve the asynchronous action first and without needing to know if the
+ * result was successful up front.
+ *
+ * Like a `Promise`, an `EventualResult` can be resolved (using `.then` or
+ * `await`) to retrieve the inner `Result`.
+ */
 export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
   private promise: Promise<T>;
 

@@ -2,6 +2,75 @@
 
 > A `Result` and `Option` implementation that works with `Promise`
 
+## Installation
+
+This package is authored using [Deno](https://deno.land) and can be found on
+[`deno.land`](https://deno.land/x/eventual_result):
+
+```ts
+import { type Result } from "https://deno.land/x/eventual_result/mod.ts";
+```
+
+For consumption through `npm` (or other Node package managers), a compatible
+package is generated through [`dnt`](https://github.com/denoland/dnt):
+
+```bash
+npm install eventual-result
+```
+
+## Usage
+
+For the full documentation of this package, check out the hosted documentation
+on [`doc.deno.land`][docs].
+
+### `Option`
+
+An `Option` represents a value that can be present (`Some`), but might not be
+(`None`):
+
+```typescript
+type Person = {
+  id: number;
+  name: string;
+};
+
+function findPerson(id: number): Some<Person> {
+  if (store.people.has({ id })) {
+    return Some(store.people.get({ id }));
+  } else {
+    return None;
+  }
+}
+```
+
+### `Result`
+
+A `Result` represents a value that could be represent either a successful result
+(`Ok`) or an error that occurred instead (`Err)`:
+
+```typescript
+type Person = {
+  name: string;
+  age: number;
+};
+
+function createAdult(name: string, age: number): Result<Person, string> {
+  if (age >= 18) {
+    return Err(`${age} is too young to be an adult`);
+  } else {
+    return Ok({ name, age });
+  }
+}
+```
+
+### `EventualResult`
+
+An `EventualResult` is a cross between a `Promise` and a `Result`. Unlike a
+`Promise` it will never reject, and the same methods that can be called on a
+`Result` can be called on an `EventualResult`. Like a `Promise`, an
+`EventualResult` can be resolved (using `.then` or `await`) to retrieve the
+inner `Result`.
+
 ## Why Another `Result` Implementation?
 
 There are _many_ other libraries that implement these patterns; a few sources of
@@ -158,3 +227,5 @@ What has changed?
 
 The end result is writing less defensive code that extends the predictability of
 `Result` with the eventual resolution of `Promise`.
+
+[docs]: https://doc.deno.land/https://deno.land/x/eventual_result/mod.ts
