@@ -3,9 +3,6 @@ import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 class ErrImpl<E> implements Result<never, E> {
-  readonly isOk = false;
-  readonly isErr = true;
-
   /**
    * The error being wrapped by the `Result`
    */
@@ -13,6 +10,14 @@ class ErrImpl<E> implements Result<never, E> {
 
   constructor(value: E) {
     this.val = value;
+  }
+
+  isOk() {
+    return false;
+  }
+
+  isErr() {
+    return true;
   }
 
   unwrap(): never {

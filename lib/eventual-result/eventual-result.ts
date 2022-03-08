@@ -46,7 +46,7 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
     return new EventualResult(async () => {
       const result = await op(await this.promise);
 
-      if (result.isOk) {
+      if (result.isOk()) {
         return result.unwrap();
       }
 

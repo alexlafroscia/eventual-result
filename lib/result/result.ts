@@ -5,14 +5,14 @@ import { type Option } from "../option/mod.ts";
  */
 export interface Result<T, E> {
   /**
-   * Is `true` is the result is `Ok`
+   * Returns `true` is the result is `Ok`
    */
-  readonly isOk: boolean;
+  isOk(): boolean;
 
   /**
-   * Is `true` is the result is `Err`
+   * Returns `true` is the result is `Err`
    */
-  readonly isErr: boolean;
+  isErr(): boolean;
 
   /**
    * Returns the inner value if the `Result` is an `Ok`

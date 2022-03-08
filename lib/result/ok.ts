@@ -3,9 +3,6 @@ import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 class OkImpl<T> implements Result<T, never> {
-  readonly isOk = true;
-  readonly isErr = false;
-
   /**
    * The value being wrapped by the `Result`
    */
@@ -13,6 +10,14 @@ class OkImpl<T> implements Result<T, never> {
 
   constructor(value: T) {
     this.val = value;
+  }
+
+  isOk() {
+    return true;
+  }
+
+  isErr() {
+    return false;
   }
 
   unwrap(): T {
