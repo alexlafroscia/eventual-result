@@ -3,8 +3,13 @@ import { Err, type Result } from "../result/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 class NoneImpl implements Option<never> {
-  readonly isSome = false;
-  readonly isNone = true;
+  isSome() {
+    return false;
+  }
+
+  isNone() {
+    return true;
+  }
 
   unwrap(): never {
     throw new UnwrapError("Cannot unwrap `None`");

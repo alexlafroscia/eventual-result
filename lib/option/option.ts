@@ -1,8 +1,8 @@
 import { type Result } from "../result/mod.ts";
 
 export interface Option<T> {
-  readonly isSome: boolean;
-  readonly isNone: boolean;
+  isSome(): boolean;
+  isNone(): boolean;
 
   unwrap(): T;
   unwrapOr(fallback: T): T;

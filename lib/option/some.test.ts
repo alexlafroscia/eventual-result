@@ -3,11 +3,11 @@ import { Some } from "./some.ts";
 import { Ok } from "../result/mod.ts";
 
 Deno.test("#isSome", () => {
-  assertEquals(Some(1).isSome, true);
+  assertEquals(Some(1).isSome(), true);
 });
 
 Deno.test("#isNone", () => {
-  assertEquals(Some(1).isNone, false);
+  assertEquals(Some(1).isNone(), false);
 });
 
 Deno.test("#unwrap", () => {

@@ -2,10 +2,15 @@ import { type Option } from "./option.ts";
 import { Ok, type Result } from "../result/mod.ts";
 
 class SomeImpl<T> implements Option<T> {
-  readonly isSome = true;
-  readonly isNone = false;
-
   constructor(private val: T) {}
+
+  isSome() {
+    return true;
+  }
+
+  isNone() {
+    return false;
+  }
 
   unwrap(): T {
     return this.val;

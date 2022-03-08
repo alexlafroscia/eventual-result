@@ -5,11 +5,11 @@ import { ExpectError, UnwrapError } from "../exceptions.ts";
 import { Err } from "../result/err.ts";
 
 Deno.test("#isSome", () => {
-  assertEquals(None.isSome, false);
+  assertEquals(None.isSome(), false);
 });
 
 Deno.test("#isNone", () => {
-  assertEquals(None.isNone, true);
+  assertEquals(None.isNone(), true);
 });
 
 Deno.test("#unwrap", () => {
