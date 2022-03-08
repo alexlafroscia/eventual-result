@@ -35,7 +35,7 @@ type Person = {
   name: string;
 };
 
-function findPerson(id: number): Some<Person> {
+function findPerson(id: number): Option<Person> {
   if (store.people.has({ id })) {
     return Some(store.people.get({ id }));
   } else {
