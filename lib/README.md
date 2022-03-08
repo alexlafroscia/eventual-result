@@ -11,8 +11,9 @@ This package is authored using [Deno](https://deno.land) and can be found on
 import { type Result } from "https://deno.land/x/eventual_result/mod.ts";
 ```
 
-For consumption through `npm` (or other Node package managers), a compatible
-package is generated through [`dnt`](https://github.com/denoland/dnt):
+For consumption through `npm` (or other Node package managers),
+[a compatible package][npm-pkg] is generated through
+[`dnt`](https://github.com/denoland/dnt):
 
 ```bash
 npm install eventual-result
@@ -55,7 +56,7 @@ type Person = {
 };
 
 function createAdult(name: string, age: number): Result<Person, string> {
-  if (age >= 18) {
+  if (age < 18) {
     return Err(`${age} is too young to be an adult`);
   } else {
     return Ok({ name, age });
@@ -229,3 +230,4 @@ The end result is writing less defensive code that extends the predictability of
 `Result` with the eventual resolution of `Promise`.
 
 [docs]: https://doc.deno.land/https://deno.land/x/eventual_result/mod.ts
+[npm-pkg]: https://www.npmjs.com/package/eventual-result
