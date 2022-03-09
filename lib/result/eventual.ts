@@ -1,4 +1,6 @@
-import { Err, Ok, type Result } from "../result/mod.ts";
+import { type Result } from "./result.ts";
+import { Ok } from "./ok.ts";
+import { Err } from "./err.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 type MaybeAsync<T> = T | PromiseLike<T>;

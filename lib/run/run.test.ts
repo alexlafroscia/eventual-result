@@ -1,7 +1,5 @@
 import { assert, assertEquals } from "../test-deps.ts";
-
-import { EventualResult } from "../eventual-result/mod.ts";
-import { Err, Ok } from "../result/mod.ts";
+import { Err, EventualResult, Ok } from "../result/mod.ts";
 import { run } from "./run.ts";
 
 Deno.test("returning a value", () => {

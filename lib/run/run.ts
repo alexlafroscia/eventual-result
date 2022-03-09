@@ -1,5 +1,9 @@
-import { Err, Ok, type Result as ResultWithErrorType } from "../result/mod.ts";
-import { EventualResult } from "../eventual-result/mod.ts";
+import {
+  Err,
+  EventualResult,
+  Ok,
+  type Result as ResultWithErrorType,
+} from "../result/mod.ts";
 
 type Result<T> = ResultWithErrorType<T, unknown>;
 

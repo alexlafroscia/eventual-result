@@ -1,7 +1,8 @@
 import { assert, assertEquals, assertRejects } from "../test-deps.ts";
-import { Err, Ok } from "../result/mod.ts";
+import { Ok } from "./ok.ts";
+import { Err } from "./err.ts";
+import { EventualResult } from "./eventual.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
-import { EventualResult } from "./eventual-result.ts";
 
 Deno.test("creation", async (t) => {
   await t.step("from a promise", async (t) => {
