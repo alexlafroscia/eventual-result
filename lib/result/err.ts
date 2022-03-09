@@ -1,8 +1,12 @@
+import { type ResultMethods } from "./methods.ts";
 import { type Result } from "./result.ts";
 import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
-class ErrImpl<E> implements Result<never, E> {
+export class ErrImpl<E> implements ResultMethods<never, E> {
+  readonly isOk = false;
+  readonly isErr = true;
+
   /**
    * The error being wrapped by the `Result`
    */
@@ -10,14 +14,6 @@ class ErrImpl<E> implements Result<never, E> {
 
   constructor(value: E) {
     this.val = value;
-  }
-
-  isOk() {
-    return false;
-  }
-
-  isErr() {
-    return true;
   }
 
   unwrap(): never {
@@ -36,19 +32,19 @@ class ErrImpl<E> implements Result<never, E> {
     return this.val;
   }
 
-  andThen(_op: (value: never) => Result<never, E>): ErrImpl<E> {
+  andThen(): ErrImpl<E> {
     return this;
   }
 
-  map<T = never, U = never>(_op: (value: T) => U): Result<never, E> {
+  map(): ErrImpl<E> {
     return this;
   }
 
-  mapErr<F>(op: (error: E) => F): Result<never, F> {
+  mapErr<F>(op: (error: E) => F): ErrImpl<F> {
     return Err(op(this.val));
   }
 
-  mapOr<U, T = never>(fallback: U, _op: (value: T) => U): U {
+  mapOr<U>(fallback: U, _op: (value: never) => U): U {
     return fallback;
   }
 

@@ -11,13 +11,13 @@ import { ExpectError, UnwrapError } from "../exceptions.ts";
 Deno.test("#isOk", () => {
   const ok = Ok("whatever");
 
-  assertEquals(ok.isOk(), true);
+  assertEquals(ok.isOk, true);
 });
 
 Deno.test("#isErr", () => {
   const ok = Ok("whatever");
 
-  assertEquals(ok.isErr(), false);
+  assertEquals(ok.isErr, false);
 });
 
 Deno.test("#unwrap", () => {
@@ -72,7 +72,7 @@ Deno.test("#map", () => {
 });
 
 Deno.test("#mapErr", () => {
-  const ok = Ok("whatever").mapErr(() => "my error");
+  const ok = Ok("whatever").mapErr();
 
   assertStrictEquals(ok, ok);
 });

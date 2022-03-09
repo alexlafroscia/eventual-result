@@ -10,13 +10,13 @@ import { ExpectError, UnwrapError } from "../exceptions.ts";
 Deno.test("#isOk", () => {
   const err = Err("whatever");
 
-  assertEquals(err.isOk(), false);
+  assertEquals(err.isOk, false);
 });
 
 Deno.test("#isErr", () => {
   const err = Err("whatever");
 
-  assertEquals(err.isErr(), true);
+  assertEquals(err.isErr, true);
 });
 
 Deno.test("#unwrap", () => {
@@ -53,13 +53,13 @@ Deno.test("#expectErr", () => {
 
 Deno.test("#andThen", () => {
   const err = Err("whatever");
-  const afterOp = err.andThen(() => Err("A different error"));
+  const afterOp = err.andThen();
 
   assertStrictEquals(err, afterOp, "The operation was not performed");
 });
 
 Deno.test("#map", () => {
-  const err = Err("whatever").map((value: string) => value.length);
+  const err = Err("whatever").map();
 
   assertStrictEquals(err, err);
 });

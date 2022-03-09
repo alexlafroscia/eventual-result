@@ -1,8 +1,12 @@
+import { type ResultMethods } from "./methods.ts";
 import { type Result } from "./result.ts";
 import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
-class OkImpl<T> implements Result<T, never> {
+export class OkImpl<T> implements ResultMethods<T, never> {
+  readonly isOk = true;
+  readonly isErr = false;
+
   /**
    * The value being wrapped by the `Result`
    */
@@ -10,14 +14,6 @@ class OkImpl<T> implements Result<T, never> {
 
   constructor(value: T) {
     this.val = value;
-  }
-
-  isOk() {
-    return true;
-  }
-
-  isErr() {
-    return false;
   }
 
   unwrap(): T {
@@ -44,7 +40,7 @@ class OkImpl<T> implements Result<T, never> {
     return Ok(op(this.val));
   }
 
-  mapErr<E = never, F = never>(_op: (value: E) => F): Result<T, never> {
+  mapErr(): OkImpl<T> {
     return this;
   }
 
