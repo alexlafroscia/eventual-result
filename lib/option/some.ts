@@ -1,16 +1,13 @@
+import { type OptionMethods } from "./methods.ts";
 import { type Option } from "./option.ts";
 import { Ok, type Result } from "../result/mod.ts";
 
-class SomeImpl<T> implements Option<T> {
+export class SomeImpl<T> implements OptionMethods<T> {
+  readonly isSome = true;
+
+  readonly isNone = false;
+
   constructor(private val: T) {}
-
-  isSome() {
-    return true;
-  }
-
-  isNone() {
-    return false;
-  }
 
   unwrap(): T {
     return this.val;

@@ -1,15 +1,12 @@
+import { type OptionMethods } from "./methods.ts";
 import { type Option } from "./option.ts";
 import { Err, type Result } from "../result/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
-class NoneImpl implements Option<never> {
-  isSome() {
-    return false;
-  }
+export class NoneImpl implements OptionMethods<never> {
+  readonly isSome = false;
 
-  isNone() {
-    return true;
-  }
+  readonly isNone = true;
 
   unwrap(): never {
     throw new UnwrapError("Cannot unwrap `None`");
@@ -27,19 +24,19 @@ class NoneImpl implements Option<never> {
     throw new ExpectError(message);
   }
 
-  andThen<T, U>(_op: (value: T) => Option<U>): NoneImpl {
+  andThen(): NoneImpl {
     return this;
   }
 
-  map<T, U>(_op: (value: T) => U): NoneImpl {
+  map(): NoneImpl {
     return this;
   }
 
-  mapOr<T, U>(fallback: U, _op: (value: T) => U): U {
+  mapOr<U>(fallback: U): U {
     return fallback;
   }
 
-  mapOrElse<T, U>(fallback: () => U, _op: (value: T) => U): U {
+  mapOrElse<U>(fallback: () => U): U {
     return fallback();
   }
 

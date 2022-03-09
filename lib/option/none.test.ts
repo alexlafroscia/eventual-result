@@ -1,15 +1,14 @@
 import { assertEquals, assertThrows } from "../test-deps.ts";
-import { Some } from "./some.ts";
 import { None } from "./none.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 import { Err } from "../result/err.ts";
 
 Deno.test("#isSome", () => {
-  assertEquals(None.isSome(), false);
+  assertEquals(None.isSome, false);
 });
 
 Deno.test("#isNone", () => {
-  assertEquals(None.isNone(), true);
+  assertEquals(None.isNone, true);
 });
 
 Deno.test("#unwrap", () => {
@@ -28,20 +27,20 @@ Deno.test("#expect", () => {
   assertThrows(() => None.expect("My Error"), ExpectError, "My Error");
 });
 
-Deno.test("andThen", () => {
-  assertEquals(None.map((val: number) => Some(val + 1)), None);
+Deno.test("#andThen", () => {
+  assertEquals(None.andThen(), None);
 });
 
 Deno.test("#map", () => {
-  assertEquals(None.map((val: number) => val + 1), None);
+  assertEquals(None.map(), None);
 });
 
 Deno.test("#mapOr", () => {
-  assertEquals(None.mapOr(0, (val: number) => val + 1), 0);
+  assertEquals(None.mapOr(0), 0);
 });
 
 Deno.test("#mapOrElse", () => {
-  assertEquals(None.mapOrElse(() => 0, (val: number) => val + 0), 0);
+  assertEquals(None.mapOrElse(() => 0), 0);
 });
 
 Deno.test("#and", () => {

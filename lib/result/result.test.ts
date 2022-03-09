@@ -92,7 +92,7 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
   await t.step("#err", () => {
     const result = divide(1, 2).err();
 
-    assertEquals(result.isNone(), true);
+    assertEquals(result.isNone, true);
   });
 });
 
