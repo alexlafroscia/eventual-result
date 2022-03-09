@@ -96,7 +96,7 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
 // into either a `SomeImpl<T>` or a `NoneImpl`. The "test" here are the assignments
 // to narrower types within the `if`/`else` statement: this code won't compile if the
 // intended behavior in the type system is not working
-Deno.test("discriminating `OkImpl` from `ErrImpl`", async (t) => {
+Deno.test("discriminating `SomeImpl` from `NoneImpl`", async (t) => {
   const result = toOption(1);
 
   await t.step("using `#isSome`", () => {
