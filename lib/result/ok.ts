@@ -20,6 +20,10 @@ export class OkImpl<T> implements ResultMethods<T, never> {
     return this.val;
   }
 
+  unwrapOr(): T {
+    return this.val;
+  }
+
   expect(_message: string): T {
     return this.val;
   }

@@ -27,6 +27,12 @@ Deno.test("#unwrap", () => {
   }, UnwrapError);
 });
 
+Deno.test("#unwrapOr", () => {
+  const err = Err("whatever");
+
+  assertEquals(err.unwrapOr("foo"), "foo");
+});
+
 Deno.test("#expect", () => {
   const err = Err("whatever");
 

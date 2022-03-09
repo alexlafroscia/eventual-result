@@ -25,6 +25,13 @@ export interface ResultMethods<T, E> {
   /**
    * Returns the inner value if the `Result` is an `Ok`
    *
+   * Otherwise, returns the fallback value
+   */
+  unwrapOr(fallback: T): T;
+
+  /**
+   * Returns the inner value if the `Result` is an `Ok`
+   *
    * Throws an `ExpectError` with the given message if the `Result` is an `Err`
    */
   expect(message: string): T;

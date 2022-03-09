@@ -23,6 +23,12 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
     assertEquals(result, 0.5);
   });
 
+  await t.step("#unwrapOr", () => {
+    const result = divide(1, 2).unwrapOr(Infinity);
+
+    assertEquals(result, 0.5);
+  });
+
   await t.step("#expect", () => {
     const result = divide(1, 2).expect("You tried to do the impossible");
 

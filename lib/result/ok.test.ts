@@ -26,6 +26,12 @@ Deno.test("#unwrap", () => {
   assertEquals(ok.unwrap(), "whatever");
 });
 
+Deno.test("#unwrap", () => {
+  const ok = Ok("whatever");
+
+  assertEquals(ok.unwrapOr(), "whatever");
+});
+
 Deno.test("#expect", () => {
   const ok = Ok("whatever");
 

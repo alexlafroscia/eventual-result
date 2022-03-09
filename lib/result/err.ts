@@ -20,6 +20,10 @@ export class ErrImpl<E> implements ResultMethods<never, E> {
     throw new UnwrapError("Cannot unwrap `Err`", { cause: this.val });
   }
 
+  unwrapOr<T>(fallback: T): T {
+    return fallback;
+  }
+
   expect(message: string): never {
     throw new ExpectError(message, { cause: this.val });
   }
