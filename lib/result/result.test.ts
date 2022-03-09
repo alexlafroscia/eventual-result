@@ -47,10 +47,58 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
     assertEquals(result, "You cannot divide by `0`");
   });
 
-  await t.step("#andThen", () => {
-    const result = divide(1, 2).andThen((result) => Ok(result * 2));
+  await t.step("#andThen", async (t) => {
+    await t.step("when the result is `Ok`", async (t) => {
+      await t.step("and the callback returns `Ok`", () => {
+        const result: Result<number, string> = divide(1, 2).andThen((result) =>
+          Ok(result * 2)
+        );
 
-    assertEquals(result, Ok(1));
+        assertEquals(result, Ok(1));
+      });
+
+      await t.step("and the callback returns `Err`", () => {
+        const result: Result<number, string> = divide(1, 2).andThen(() =>
+          Err("Oops!")
+        );
+
+        assertEquals(result, Err("Oops!"));
+      });
+
+      await t.step("and the callback returns `Result`", () => {
+        const result: Result<number, string> = divide(1, 2).andThen((result) =>
+          divide(result, 1)
+        );
+
+        assertEquals(result, Ok(0.5));
+      });
+    });
+
+    await t.step("when the result is `Err`", async (t) => {
+      await t.step("and the callback returns `Ok`", () => {
+        const result: Result<number, string> = divide(1, 0).andThen((result) =>
+          Ok(result * 2)
+        );
+
+        assertEquals(result, Err("You cannot divide by `0`"));
+      });
+
+      await t.step("and the callback returns `Err`", () => {
+        const result: Result<number, string> = divide(1, 0).andThen(() =>
+          Err("Oops!")
+        );
+
+        assertEquals(result, Err("You cannot divide by `0`"));
+      });
+
+      await t.step("and the callback returns `Result`", () => {
+        const result: Result<number, string> = divide(1, 0).andThen((result) =>
+          divide(result, 1)
+        );
+
+        assertEquals(result, Err("You cannot divide by `0`"));
+      });
+    });
   });
 
   await t.step("#map", () => {

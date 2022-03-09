@@ -36,7 +36,9 @@ export class OkImpl<T> implements ResultMethods<T, never> {
     throw new ExpectError(message, { cause: this.val });
   }
 
-  andThen<U, E>(op: (value: T) => Result<U, E>): Result<U, E> {
+  andThen<U, E, OpResult extends Result<U, E>>(
+    op: (value: T) => OpResult,
+  ): OpResult {
     return op(this.val);
   }
 
