@@ -22,6 +22,7 @@ await build({
     description:
       "A `Result` and `Option` implementation that works with `Promise`",
     license: "MIT",
+    author: "Alex LaFroscia <alex@lafroscia.com>",
     repository: {
       type: "git",
       url: "git+https://github.com/alexlafroscia/eventual-result.git",
