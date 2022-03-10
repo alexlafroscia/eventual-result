@@ -1,5 +1,6 @@
 import { type Option } from "../option/mod.ts";
 import { type Result } from "./result.ts";
+import { type EventualResult } from "./eventual.ts";
 
 /**
  * `Result` is a type that represents either success (`Ok`) or failure (`Err`)
@@ -116,4 +117,10 @@ export interface ResultMethods<T, E> {
    * If the `Result` is an `Ok`, the value is discarded
    */
   err(): Option<E>;
+
+  /**
+   * Converts from `Result<T, E>` to `EventualResult<T, E>` so that
+   * asynchronous actions can be applied to a `Result<T, E>`
+   */
+  eventually(): EventualResult<T, E>;
 }

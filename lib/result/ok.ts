@@ -1,5 +1,6 @@
 import { type ResultMethods } from "./methods.ts";
 import { type Result } from "./result.ts";
+import { EventualResult } from "./eventual.ts";
 import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
@@ -72,6 +73,10 @@ export class OkImpl<T> implements ResultMethods<T, never> {
 
   err(): Option<never> {
     return None;
+  }
+
+  eventually(): EventualResult<T, never> {
+    return new EventualResult<T, never>(Promise.resolve(this));
   }
 
   get [Symbol.toStringTag]() {

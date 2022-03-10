@@ -5,6 +5,7 @@ import {
   assertThrows,
 } from "../test-deps.ts";
 import { Ok } from "./ok.ts";
+import { EventualResult } from "./eventual.ts";
 import { None, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
@@ -113,8 +114,14 @@ Deno.test("#ok", () => {
   assertEquals(ok.ok(), Some("whatever"));
 });
 
-Deno.test("err", () => {
+Deno.test("#err", () => {
   const ok = Ok("whatever");
 
   assertEquals(ok.err(), None);
+});
+
+Deno.test("#eventually", async () => {
+  const eventual: EventualResult<string, never> = Ok("whatever").eventually();
+
+  assertEquals(await eventual, Ok("whatever"));
 });

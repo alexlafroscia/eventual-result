@@ -4,6 +4,7 @@ import {
   assertThrows,
 } from "../test-deps.ts";
 import { Err } from "./err.ts";
+import { EventualResult } from "./eventual.ts";
 import { None, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
@@ -116,4 +117,10 @@ Deno.test("#err", () => {
   const err = Err("whatever");
 
   assertEquals(err.err(), Some("whatever"));
+});
+
+Deno.test("#eventually", async () => {
+  const eventual: EventualResult<never, string> = Err("whatever").eventually();
+
+  assertEquals(await eventual, Err("whatever"));
 });
