@@ -119,6 +119,15 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
     assertEquals(result, 1);
   });
 
+  await t.step("#mapOrElse", () => {
+    const result = divide(1, 2).mapOrElse(
+      () => Infinity,
+      (result) => result * 2,
+    );
+
+    assertEquals(result, 1);
+  });
+
   await t.step("#and", () => {
     const result = divide(1, 2).and(Ok(0));
 

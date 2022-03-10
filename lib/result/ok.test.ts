@@ -90,6 +90,15 @@ Deno.test("#mapOr", () => {
   assertEquals(lengthOrDefault, 8);
 });
 
+Deno.test("#mapOrElse", () => {
+  const lengthOrDefault = Ok("whatever").mapOrElse(
+    () => 0,
+    (value) => value.length,
+  );
+
+  assertEquals(lengthOrDefault, 8);
+});
+
 Deno.test("#and", () => {
   const result = Ok("foo").and(Ok("bar"));
 

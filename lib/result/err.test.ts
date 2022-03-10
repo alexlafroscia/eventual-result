@@ -86,6 +86,15 @@ Deno.test("#mapOr", () => {
   assertEquals(lengthOrDefault, 0);
 });
 
+Deno.test("#mapOrElse", () => {
+  const lengthOrDefault = Err("whatever").mapOrElse(
+    () => 0,
+    (value: string) => value.length,
+  );
+
+  assertEquals(lengthOrDefault, 0);
+});
+
 Deno.test("#and", () => {
   const err = Err("foo");
   const result = err.and(Err("bar"));

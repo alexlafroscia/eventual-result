@@ -55,6 +55,10 @@ export class OkImpl<T> implements ResultMethods<T, never> {
     return op(this.val);
   }
 
+  mapOrElse<U>(_fallback: () => U, op: (value: T) => U): U {
+    return op(this.val);
+  }
+
   and<E>(other: Result<T, E>): Result<T, E> {
     return other;
   }

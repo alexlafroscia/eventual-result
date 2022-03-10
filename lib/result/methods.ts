@@ -86,6 +86,12 @@ export interface ResultMethods<T, E> {
   mapOr<U>(fallback: U, op: (value: T) => U): U;
 
   /**
+   * Returns the result of the `fallback` operation if `Err`, otherwise applies the `op`
+   * to the contained value of `Ok`.
+   */
+  mapOrElse<U>(fallback: () => U, op: (value: T) => U): U;
+
+  /**
    * Returns `other` if the result is `Ok`, otherwise returns itself
    */
   and(other: Result<T, E>): Result<T, E>;

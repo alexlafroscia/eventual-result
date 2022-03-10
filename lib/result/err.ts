@@ -53,6 +53,10 @@ export class ErrImpl<E> implements ResultMethods<never, E> {
     return fallback;
   }
 
+  mapOrElse<U>(fallback: () => U, _op: (value: never) => U): U {
+    return fallback();
+  }
+
   and<T>(_other: Result<T, E>): ErrImpl<E> {
     return this;
   }
