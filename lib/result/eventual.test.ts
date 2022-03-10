@@ -52,54 +52,111 @@ Deno.test("creation", async (t) => {
   });
 });
 
-Deno.test("#map", async () => {
-  const eventuallyOk = new EventualResult(Promise.resolve("ok"));
-  const eventuallyOkLength = eventuallyOk.map((value) => value.length);
+Deno.test("#map", async (t) => {
+  await t.step("when returning a value", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+    const eventuallyOkLength = eventuallyOk.map((value) => value.length);
 
-  assertEquals(await eventuallyOkLength, Ok(2));
+    assertEquals(await eventuallyOkLength, Ok(2));
 
-  const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
-  const eventuallyErrLength = eventuallyErr.map((value: string) =>
-    value.length
-  );
+    const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
+    const eventuallyErrLength = eventuallyErr.map((value: string) =>
+      value.length
+    );
 
-  assertEquals(await eventuallyErrLength, Err("err"));
+    assertEquals(await eventuallyErrLength, Err("err"));
+  });
+
+  await t.step("when returning a `Promise`", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+    const eventuallyOkLength: EventualResult<number, unknown> = eventuallyOk
+      .map((value) => Promise.resolve(value.length));
+
+    assertEquals(await eventuallyOkLength, Ok(2));
+
+    const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
+    const eventuallyErrLength = eventuallyErr.map((value: string) =>
+      Promise.resolve(value.length)
+    );
+
+    assertEquals(await eventuallyErrLength, Err("err"));
+  });
 });
 
-Deno.test("#mapOr", async () => {
-  const eventuallyOk = new EventualResult(Promise.resolve("ok"));
-  const eventuallyOkLength = eventuallyOk.mapOr(
-    Infinity,
-    (value) => value.length,
-  );
+Deno.test("#mapOr", async (t) => {
+  await t.step("when returning a value", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+    const eventuallyOkLength = eventuallyOk.mapOr(
+      Infinity,
+      (value) => value.length,
+    );
 
-  assertEquals(await eventuallyOkLength, 2);
+    assertEquals(await eventuallyOkLength, 2);
 
-  const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
-  const eventuallyErrLength = eventuallyErr.mapOr(
-    Infinity,
-    (value: string) => value.length,
-  );
+    const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
+    const eventuallyErrLength = eventuallyErr.mapOr(
+      Infinity,
+      (value: string) => value.length,
+    );
 
-  assertEquals(await eventuallyErrLength, Infinity);
+    assertEquals(await eventuallyErrLength, Infinity);
+  });
+
+  await t.step("when returning a `Promise`", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+    const eventuallyOkLength: Promise<number> = eventuallyOk.mapOr(
+      Infinity,
+      (value) => Promise.resolve(value.length),
+    );
+
+    assertEquals(await eventuallyOkLength, 2);
+
+    const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
+    const eventuallyErrLength: Promise<number> = eventuallyErr.mapOr(
+      Infinity,
+      (value: string) => Promise.resolve(value.length),
+    );
+
+    assertEquals(await eventuallyErrLength, Infinity);
+  });
 });
 
-Deno.test("#mapOrElse", async () => {
-  const eventuallyOk = new EventualResult(Promise.resolve("ok"));
-  const eventuallyOkLength = eventuallyOk.mapOrElse(
-    () => Infinity,
-    (value) => value.length,
-  );
+Deno.test("#mapOrElse", async (t) => {
+  await t.step("when returning a value", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+    const eventuallyOkLength = eventuallyOk.mapOrElse(
+      () => Infinity,
+      (value) => value.length,
+    );
 
-  assertEquals(await eventuallyOkLength, 2);
+    assertEquals(await eventuallyOkLength, 2);
 
-  const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
-  const eventuallyErrLength = eventuallyErr.mapOrElse(
-    () => Infinity,
-    (value: string) => value.length,
-  );
+    const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
+    const eventuallyErrLength = eventuallyErr.mapOrElse(
+      () => Infinity,
+      (value: string) => value.length,
+    );
 
-  assertEquals(await eventuallyErrLength, Infinity);
+    assertEquals(await eventuallyErrLength, Infinity);
+  });
+
+  await t.step("when returning a `Promise`", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+    const eventuallyOkLength: Promise<number> = eventuallyOk.mapOrElse(
+      () => Promise.resolve(Infinity),
+      (value) => Promise.resolve(value.length),
+    );
+
+    assertEquals(await eventuallyOkLength, 2);
+
+    const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
+    const eventuallyErrLength: Promise<number> = eventuallyErr.mapOrElse(
+      () => Promise.resolve(Infinity),
+      (value: string) => Promise.resolve(value.length),
+    );
+
+    assertEquals(await eventuallyErrLength, Infinity);
+  });
 });
 
 Deno.test("#andThen", async (t) => {

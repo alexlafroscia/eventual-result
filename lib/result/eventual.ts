@@ -97,7 +97,7 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
   /**
    * Transforms an `EventualResult<T>` into an `EventualResult<U>`
    */
-  map<U>(op: (value: T) => U): EventualResult<U, E> {
+  map<U>(op: (value: T) => MaybeAsync<U>): EventualResult<U, E> {
     return new EventualResult(this.promise.then(
       (value) => op(value),
     ));
@@ -112,7 +112,7 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
    * If the `EventualResult` is eventually `Err`, the `Promise` resolves to the
    * fallback value.
    */
-  async mapOr<U>(fallback: U, op: (value: T) => U): Promise<U> {
+  async mapOr<U>(fallback: U, op: (value: T) => MaybeAsync<U>): Promise<U> {
     const result = await this;
 
     return result.mapOr(fallback, op);
@@ -127,7 +127,10 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
    * If the `EventualResult` is eventually `Err`, the `Promise` resolves to the
    * fallback value.
    */
-  async mapOrElse<U>(fallback: () => U, op: (value: T) => U): Promise<U> {
+  async mapOrElse<U>(
+    fallback: () => MaybeAsync<U>,
+    op: (value: T) => MaybeAsync<U>,
+  ): Promise<U> {
     const result = await this;
 
     return result.mapOrElse(fallback, op);
