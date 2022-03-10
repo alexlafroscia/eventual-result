@@ -84,6 +84,24 @@ Deno.test("#mapOr", async () => {
   assertEquals(await eventuallyErrLength, Infinity);
 });
 
+Deno.test("#mapOrElse", async () => {
+  const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+  const eventuallyOkLength = eventuallyOk.mapOrElse(
+    () => Infinity,
+    (value) => value.length,
+  );
+
+  assertEquals(await eventuallyOkLength, 2);
+
+  const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
+  const eventuallyErrLength = eventuallyErr.mapOrElse(
+    () => Infinity,
+    (value: string) => value.length,
+  );
+
+  assertEquals(await eventuallyErrLength, Infinity);
+});
+
 Deno.test("#andThen", async (t) => {
   await t.step("when the operation returns an `Ok`", async (t) => {
     await t.step("and the promise resolves", async () => {
@@ -188,6 +206,16 @@ Deno.test("#unwrap", async () => {
     UnwrapError,
     "Cannot unwrap `Err`",
   );
+});
+
+Deno.test("#unwrapOr", async () => {
+  const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+
+  assertEquals(await eventuallyOk.unwrapOr("other"), "ok");
+
+  const eventuallyErr = new EventualResult(Promise.reject("err"));
+
+  assertEquals(await eventuallyErr.unwrapOr("other"), "other");
 });
 
 Deno.test("#expect", async () => {

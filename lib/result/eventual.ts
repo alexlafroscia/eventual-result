@@ -53,34 +53,8 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
 
   /* === Result Methods === */
 
-  map<U>(op: (value: T) => U): EventualResult<U, E> {
-    return new EventualResult(this.promise.then(
-      (value) => op(value),
-    ));
-  }
-
-  async mapOr<U>(fallback: U, op: (value: T) => U): Promise<U> {
-    const result = await this;
-
-    return result.mapOr(fallback, op);
-  }
-
-  andThen<U, F>(
-    op: (value: T) => MaybeAsync<Result<U, F>>,
-  ): EventualResult<U, F> {
-    return new EventualResult(async () => {
-      const result = await op(await this.promise);
-
-      if (result.isOk) {
-        return result.unwrap();
-      }
-
-      throw result.unwrapErr();
-    });
-  }
-
   /**
-   * Converts the `EventualResult` back to a normal Promise again
+   * Converts the `EventualResult` to a `Promise`
    *
    * The `Promise` will resolve to the `Ok` value or reject with the `Err` value
    */
@@ -93,10 +67,24 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
   }
 
   /**
-   * Converts the `EventualResult` back to a normal Promise again
+   * Converts the `EventualResult` to a `Promise`
    *
-   * The `Promise` will resolve to the `Ok` value or reject with the given message
-   * given message
+   * The `Promise` will resolve to the `Ok` value if possible, falling back to
+   * the given `fallback` value in case of an `Err`
+   */
+  async unwrapOr(fallback: T): Promise<T> {
+    try {
+      return await this.promise;
+    } catch {
+      return fallback;
+    }
+  }
+
+  /**
+   * Converts the `EventualResult` to a `Promise`
+   *
+   * The `Promise` will resolve to the `Ok` value or reject with the given
+   * message
    */
   async expect(message: string): Promise<T> {
     try {
@@ -104,6 +92,62 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
     } catch (err) {
       throw new ExpectError(message, { cause: err });
     }
+  }
+
+  /**
+   * Transforms an `EventualResult<T>` into an `EventualResult<U>`
+   */
+  map<U>(op: (value: T) => U): EventualResult<U, E> {
+    return new EventualResult(this.promise.then(
+      (value) => op(value),
+    ));
+  }
+
+  /**
+   * Transforms an `EventualResult<T>` into a `Promise<U>`
+   *
+   * If the `EventualResult` is eventually `Ok`, the callback is applied to it
+   * and the `Promise` resolves to the result.
+   *
+   * If the `EventualResult` is eventually `Err`, the `Promise` resolves to the
+   * fallback value.
+   */
+  async mapOr<U>(fallback: U, op: (value: T) => U): Promise<U> {
+    const result = await this;
+
+    return result.mapOr(fallback, op);
+  }
+
+  /**
+   * Transforms an `EventualResult<T>` into a `Promise<U>`
+   *
+   * If the `EventualResult` is eventually `Ok`, the callback is applied to it
+   * and the `Promise` resolves to the result.
+   *
+   * If the `EventualResult` is eventually `Err`, the `Promise` resolves to the
+   * fallback value.
+   */
+  async mapOrElse<U>(fallback: () => U, op: (value: T) => U): Promise<U> {
+    const result = await this;
+
+    return result.mapOrElse(fallback, op);
+  }
+
+  /**
+   * Transforms an `EventualResult<T>` into an `EventualResult<U>`
+   *
+   * The provided operation is only applied if the `EventualResult` is
+   * eventually `Ok`.
+   *
+   * The operation can synchronous or asynchronously return a new `Result` for
+   * the resulting `EventualResult` to wrap.
+   */
+  andThen<U, F>(
+    op: (value: T) => MaybeAsync<Result<U, F>>,
+  ): EventualResult<U, F> {
+    return new EventualResult(async () => {
+      return op(await this.promise);
+    });
   }
 
   /* === Promise Methods === */
