@@ -6,11 +6,25 @@ import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 Deno.test("creation", async (t) => {
   await t.step("from a promise", async (t) => {
-    await t.step("that resolves", async () => {
+    await t.step("that resolves to a value", async () => {
       const eventuallyOk = new EventualResult(Promise.resolve("ok"));
       const ok = await eventuallyOk;
 
       assertEquals(ok, Ok("ok"));
+    });
+
+    await t.step("that resolves to an `OkImpl`", async () => {
+      const eventuallyOk = new EventualResult(Promise.resolve(Ok("ok")));
+      const ok = await eventuallyOk;
+
+      assertEquals(ok, Ok("ok"));
+    });
+
+    await t.step("that resolves to an `ErrImpl`", async () => {
+      const eventuallyErr = new EventualResult(Promise.resolve(Err("err")));
+      const err = await eventuallyErr;
+
+      assertEquals(err, Err("err"));
     });
 
     await t.step("that rejects", async () => {
@@ -44,7 +58,7 @@ Deno.test("#map", async () => {
 
   assertEquals(await eventuallyOkLength, Ok(2));
 
-  const eventuallyErr = new EventualResult(Promise.reject("err"));
+  const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
   const eventuallyErrLength = eventuallyErr.map((value: string) =>
     value.length
   );
@@ -61,7 +75,7 @@ Deno.test("#mapOr", async () => {
 
   assertEquals(await eventuallyOkLength, 2);
 
-  const eventuallyErr = new EventualResult(Promise.reject("err"));
+  const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
   const eventuallyErrLength = eventuallyErr.mapOr(
     Infinity,
     (value: string) => value.length,

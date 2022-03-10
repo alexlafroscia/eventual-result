@@ -1,9 +1,11 @@
 import { type Result } from "./result.ts";
-import { Ok } from "./ok.ts";
-import { Err } from "./err.ts";
+import { Ok, OkImpl } from "./ok.ts";
+import { Err, ErrImpl } from "./err.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 type MaybeAsync<T> = T | PromiseLike<T>;
+
+type ValueOrResult<T, E> = Result<T, E> | T;
 
 /**
  * An `EventualResult` is a cross between a `Promise` and a `Result`.
@@ -16,16 +18,37 @@ type MaybeAsync<T> = T | PromiseLike<T>;
  *
  * Like a `Promise`, an `EventualResult` can be resolved (using `.then` or
  * `await`) to retrieve the inner `Result`.
+ *
+ * The provided `Promise` can either resolve to a "normal" value, a `Result`, or
+ * can reject to some error; all of these cases are handled.
  */
 export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
   private promise: Promise<T>;
 
-  constructor(originator: Promise<T> | (() => Promise<T>)) {
-    if (typeof originator === "function") {
-      this.promise = originator();
-    } else {
-      this.promise = originator;
-    }
+  constructor(
+    originator:
+      | (() => Promise<ValueOrResult<T, E>>)
+      | Promise<ValueOrResult<T, E>>,
+  ) {
+    const promise = typeof originator === "function"
+      ? originator()
+      : originator;
+
+    // Handle the promise resolving to a `Result`
+    this.promise = promise.then((result) => {
+      // If it's an `OkImpl` then we can unwrap it
+      if (result instanceof OkImpl) {
+        return result.unwrap();
+      }
+
+      // If it's an `ErrImpl` then it should throw the inner error
+      if (result instanceof ErrImpl) {
+        throw result.unwrapErr();
+      }
+
+      // Otherwise we can just pass it through
+      return result;
+    });
   }
 
   /* === Result Methods === */
