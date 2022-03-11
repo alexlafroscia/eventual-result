@@ -120,7 +120,7 @@ Deno.test("#orElse", () => {
 Deno.test("#ok", () => {
   const ok = new Ok("whatever");
 
-  assertEquals(ok.ok(), Some("whatever"));
+  assertEquals(ok.ok(), new Some("whatever"));
 });
 
 Deno.test("#err", () => {

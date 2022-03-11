@@ -1,17 +1,17 @@
 import { assert, assertEquals } from "../test-deps.ts";
 import { type Option } from "./option.ts";
-import { Some, SomeImpl } from "./some.ts";
-import { None, NoneImpl } from "./none.ts";
+import { Some } from "./some.ts";
+import { None } from "./none.ts";
 
 function toOption<T>(value: T | undefined): Option<T> {
-  return typeof value !== "undefined" ? Some(value) : None;
+  return typeof value !== "undefined" ? new Some(value) : None;
 }
 
 // These tests call methods on the union `Option` type to ensure everything
-// type-checks. Without these tests, the `SomeImpl` and `NoneImpl` classes
-// might not actually be compatible with one another; the shared interface
-// that they both implement is not enough to guarantee that passed arguments
-// and their types are satisfied in both implementations.
+// type-checks. Without these tests, the `Some` and `None` classes might not
+// actually be compatible with one another; the shared interface that they both
+// implement is not enough to guarantee that passed arguments and their types
+// are satisfied in both implementations.
 Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
   await t.step("#unwrap", () => {
     const result = toOption(1).unwrap();
@@ -38,15 +38,15 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
   });
 
   await t.step("#andThen", () => {
-    const result = toOption(1).andThen((value) => Some(value * 2));
+    const result = toOption(1).andThen((value) => new Some(value * 2));
 
-    assertEquals(result, Some(2));
+    assertEquals(result, new Some(2));
   });
 
   await t.step("#map", () => {
     const result = toOption(1).map((value) => value * 2);
 
-    assertEquals(result, Some(2));
+    assertEquals(result, new Some(2));
   });
 
   await t.step("#mapOr", () => {
@@ -70,13 +70,13 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
   await t.step("#or", () => {
     const result = toOption(1).or(None);
 
-    assertEquals(result, Some(1));
+    assertEquals(result, new Some(1));
   });
 
   await t.step("#orElse", () => {
     const result = toOption(1).orElse(() => None);
 
-    assertEquals(result, Some(1));
+    assertEquals(result, new Some(1));
   });
 
   await t.step("#okOr", () => {
@@ -92,26 +92,26 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
   });
 });
 
-// These tests ensure that `isSome` and `isNone` actually discriminate an `Option<T>`
-// into either a `SomeImpl<T>` or a `NoneImpl`. The "test" here are the assignments
-// to narrower types within the `if`/`else` statement: this code won't compile if the
-// intended behavior in the type system is not working
-Deno.test("discriminating `SomeImpl` from `NoneImpl`", async (t) => {
+// These tests ensure that `isSome` and `isNone` actually discriminate an
+// `Option<T>` into either a `Some<T>` or a `None`. The "test" here are the
+// assignments to narrower types within the `if`/`else` statement: this code
+// won't compile if the intended behavior in the type system is not working
+Deno.test("discriminating `Some` from `None`", async (t) => {
   const result = toOption(1);
 
   await t.step("using `#isSome`", () => {
     if (result.isSome) {
-      const _some: SomeImpl<number> = result;
+      const _some: Some<number> = result;
     } else {
-      const _none: NoneImpl = result;
+      const _none: typeof None = result;
     }
   });
 
   await t.step("using `#isNone`", () => {
     if (result.isNone) {
-      const _none: NoneImpl = result;
+      const _none: typeof None = result;
     } else {
-      const _some: SomeImpl<number> = result;
+      const _some: Some<number> = result;
     }
   });
 });

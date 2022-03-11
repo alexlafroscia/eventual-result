@@ -3,7 +3,7 @@ import { type Option } from "./option.ts";
 import { Err, type Result } from "../result/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
-export class NoneImpl implements OptionMethods<never> {
+class NoneImpl implements OptionMethods<never> {
   readonly isSome = false;
 
   readonly isNone = true;

@@ -65,7 +65,7 @@ export class Ok<T> implements ResultMethods<T, never> {
   }
 
   ok(): Option<T> {
-    return Some(this.val);
+    return new Some(this.val);
   }
 
   err(): Option<never> {

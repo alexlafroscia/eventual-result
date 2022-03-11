@@ -67,7 +67,7 @@ export class Err<E> implements ResultMethods<never, E> {
   }
 
   err(): Option<E> {
-    return Some(this.val);
+    return new Some(this.val);
   }
 
   eventually(): EventualResult<never, E> {

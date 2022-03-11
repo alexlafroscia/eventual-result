@@ -125,7 +125,7 @@ Deno.test("#ok", () => {
 Deno.test("#err", () => {
   const err = new Err("whatever");
 
-  assertEquals(err.err(), Some("whatever"));
+  assertEquals(err.err(), new Some("whatever"));
 });
 
 Deno.test("#eventually", async () => {

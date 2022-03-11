@@ -2,7 +2,7 @@ import { type OptionMethods } from "./methods.ts";
 import { type Option } from "./option.ts";
 import { Ok, type Result } from "../result/mod.ts";
 
-export class SomeImpl<T> implements OptionMethods<T> {
+export class Some<T> implements OptionMethods<T> {
   readonly isSome = true;
 
   readonly isNone = false;
@@ -29,8 +29,8 @@ export class SomeImpl<T> implements OptionMethods<T> {
     return op(this.val);
   }
 
-  map<U>(op: (value: T) => U): SomeImpl<U> {
-    return Some(op(this.val));
+  map<U>(op: (value: T) => U): Some<U> {
+    return new Some(op(this.val));
   }
 
   mapOr<U>(_fallback: U, op: (value: T) => U): U {
@@ -60,8 +60,4 @@ export class SomeImpl<T> implements OptionMethods<T> {
   okOrElse<E>(_err: () => E): Result<T, E> {
     return new Ok(this.val);
   }
-}
-
-export function Some<T>(value: T): SomeImpl<T> {
-  return new SomeImpl(value);
 }

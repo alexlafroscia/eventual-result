@@ -1,4 +1,4 @@
-import { type SomeImpl } from "./some.ts";
-import { type NoneImpl } from "./none.ts";
+import { type Some } from "./some.ts";
+import { type None } from "./none.ts";
 
-export type Option<T> = SomeImpl<T> | NoneImpl;
+export type Option<T> = Some<T> | typeof None;
