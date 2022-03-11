@@ -10,31 +10,31 @@ import { None, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 Deno.test("#isOk", () => {
-  const ok = Ok("whatever");
+  const ok = new Ok("whatever");
 
   assertEquals(ok.isOk, true);
 });
 
 Deno.test("#isErr", () => {
-  const ok = Ok("whatever");
+  const ok = new Ok("whatever");
 
   assertEquals(ok.isErr, false);
 });
 
 Deno.test("#unwrap", () => {
-  const ok = Ok("whatever");
+  const ok = new Ok("whatever");
 
   assertEquals(ok.unwrap(), "whatever");
 });
 
 Deno.test("#unwrap", () => {
-  const ok = Ok("whatever");
+  const ok = new Ok("whatever");
 
   assertEquals(ok.unwrapOr(), "whatever");
 });
 
 Deno.test("#expect", () => {
-  const ok = Ok("whatever");
+  const ok = new Ok("whatever");
 
   assertEquals(
     ok.expect("My Message"),
@@ -43,7 +43,7 @@ Deno.test("#expect", () => {
 });
 
 Deno.test("#unwrapErr", () => {
-  const ok = Ok("whatever");
+  const ok = new Ok("whatever");
 
   assertThrows(
     () => {
@@ -54,7 +54,7 @@ Deno.test("#unwrapErr", () => {
 });
 
 Deno.test("#expectErr", () => {
-  const ok = Ok("whatever");
+  const ok = new Ok("whatever");
 
   assertThrows(
     () => {
@@ -66,32 +66,32 @@ Deno.test("#expectErr", () => {
 });
 
 Deno.test("#andThen", () => {
-  const ok = Ok("whatever");
-  const afterOp = ok.andThen((value) => Ok(`${value}!`));
+  const ok = new Ok("whatever");
+  const afterOp = ok.andThen((value) => new Ok(`${value}!`));
 
   assertNotEquals(ok, afterOp, "The operation was performed");
 });
 
 Deno.test("#map", () => {
-  const ok = Ok("whatever").map((value) => value.length);
+  const ok = new Ok("whatever").map((value) => value.length);
 
-  assertEquals(ok, Ok(8));
+  assertEquals(ok, new Ok(8));
 });
 
 Deno.test("#mapErr", () => {
-  const ok = Ok("whatever").mapErr();
+  const ok = new Ok("whatever").mapErr();
 
   assertStrictEquals(ok, ok);
 });
 
 Deno.test("#mapOr", () => {
-  const lengthOrDefault = Ok("whatever").mapOr(0, (value) => value.length);
+  const lengthOrDefault = new Ok("whatever").mapOr(0, (value) => value.length);
 
   assertEquals(lengthOrDefault, 8);
 });
 
 Deno.test("#mapOrElse", () => {
-  const lengthOrDefault = Ok("whatever").mapOrElse(
+  const lengthOrDefault = new Ok("whatever").mapOrElse(
     () => 0,
     (value) => value.length,
   );
@@ -100,37 +100,38 @@ Deno.test("#mapOrElse", () => {
 });
 
 Deno.test("#and", () => {
-  const result = Ok("foo").and(Ok("bar"));
+  const result = new Ok("foo").and(new Ok("bar"));
 
-  assertEquals(result, Ok("bar"));
+  assertEquals(result, new Ok("bar"));
 });
 
 Deno.test("#or", () => {
-  const result = Ok("foo").or(Ok("bar"));
+  const result = new Ok("foo").or(new Ok("bar"));
 
-  assertEquals(result, Ok("foo"));
+  assertEquals(result, new Ok("foo"));
 });
 
 Deno.test("#orElse", () => {
-  const result = Ok("foo").orElse(() => Ok("bar"));
+  const result = new Ok("foo").orElse(() => new Ok("bar"));
 
-  assertEquals(result, Ok("foo"));
+  assertEquals(result, new Ok("foo"));
 });
 
 Deno.test("#ok", () => {
-  const ok = Ok("whatever");
+  const ok = new Ok("whatever");
 
   assertEquals(ok.ok(), Some("whatever"));
 });
 
 Deno.test("#err", () => {
-  const ok = Ok("whatever");
+  const ok = new Ok("whatever");
 
   assertEquals(ok.err(), None);
 });
 
 Deno.test("#eventually", async () => {
-  const eventual: EventualResult<string, never> = Ok("whatever").eventually();
+  const eventual: EventualResult<string, never> = new Ok("whatever")
+    .eventually();
 
-  assertEquals(await eventual, Ok("whatever"));
+  assertEquals(await eventual, new Ok("whatever"));
 });

@@ -27,9 +27,9 @@ export function run<T>(
     if (value instanceof Promise) {
       return new EventualResult(value);
     } else {
-      return Ok(value);
+      return new Ok(value);
     }
   } catch (e: unknown) {
-    return Err(e);
+    return new Err(e);
   }
 }

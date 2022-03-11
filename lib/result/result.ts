@@ -1,4 +1,4 @@
-import { OkImpl } from "./ok.ts";
-import { ErrImpl } from "./err.ts";
+import { Ok } from "./ok.ts";
+import { Err } from "./err.ts";
 
-export type Result<T, E> = OkImpl<T> | ErrImpl<E>;
+export type Result<T, E> = Ok<T> | Err<E>;

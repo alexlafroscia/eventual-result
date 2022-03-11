@@ -1,6 +1,6 @@
 import { type Result } from "./result.ts";
-import { Ok, OkImpl } from "./ok.ts";
-import { Err, ErrImpl } from "./err.ts";
+import { Ok } from "./ok.ts";
+import { Err } from "./err.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 type MaybeAsync<T> = T | PromiseLike<T>;
@@ -36,13 +36,13 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
 
     // Handle the promise resolving to a `Result`
     this.promise = promise.then((result) => {
-      // If it's an `OkImpl` then we can unwrap it
-      if (result instanceof OkImpl) {
+      // If it's an `Ok` then we can unwrap it
+      if (result instanceof Ok) {
         return result.unwrap();
       }
 
-      // If it's an `ErrImpl` then it should throw the inner error
-      if (result instanceof ErrImpl) {
+      // If it's an `Err` then it should throw the inner error
+      if (result instanceof Err) {
         throw result.unwrapErr();
       }
 
@@ -166,8 +166,8 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
       | null,
   ): Promise<TResult1 | TResult2> {
     return this.promise.then(
-      (value) => Ok(value),
-      (error: E) => Err(error),
+      (value) => new Ok(value),
+      (error: E) => new Err(error),
     ).then(onfulfilled, onrejected);
   }
 

@@ -55,9 +55,9 @@ Deno.test("#orElse", () => {
 });
 
 Deno.test("#okOr", () => {
-  assertEquals(Some(1).okOr("error"), Ok(1));
+  assertEquals(Some(1).okOr("error"), new Ok(1));
 });
 
 Deno.test("#okOrElse", () => {
-  assertEquals(Some(1).okOrElse(() => "error"), Ok(1));
+  assertEquals(Some(1).okOrElse(() => "error"), new Ok(1));
 });

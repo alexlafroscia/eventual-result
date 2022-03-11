@@ -4,7 +4,7 @@ import { EventualResult } from "./eventual.ts";
 import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
-export class OkImpl<T> implements ResultMethods<T, never> {
+export class Ok<T> implements ResultMethods<T, never> {
   readonly isOk = true;
   readonly isErr = false;
 
@@ -37,10 +37,10 @@ export class OkImpl<T> implements ResultMethods<T, never> {
   }
 
   map<U>(op: (value: T) => U): Result<U, never> {
-    return Ok(op(this.val));
+    return new Ok(op(this.val));
   }
 
-  mapErr(): OkImpl<T> {
+  mapErr(): Ok<T> {
     return this;
   }
 
@@ -79,8 +79,4 @@ export class OkImpl<T> implements ResultMethods<T, never> {
   get [Symbol.toStringTag]() {
     return "Ok";
   }
-}
-
-export function Ok<T>(value: T): OkImpl<T> {
-  return new OkImpl(value);
 }

@@ -10,28 +10,28 @@ Deno.test("creation", async (t) => {
       const eventuallyOk = new EventualResult(Promise.resolve("ok"));
       const ok = await eventuallyOk;
 
-      assertEquals(ok, Ok("ok"));
+      assertEquals(ok, new Ok("ok"));
     });
 
-    await t.step("that resolves to an `OkImpl`", async () => {
-      const eventuallyOk = new EventualResult(Promise.resolve(Ok("ok")));
+    await t.step("that resolves to an `Ok`", async () => {
+      const eventuallyOk = new EventualResult(Promise.resolve(new Ok("ok")));
       const ok = await eventuallyOk;
 
-      assertEquals(ok, Ok("ok"));
+      assertEquals(ok, new Ok("ok"));
     });
 
-    await t.step("that resolves to an `ErrImpl`", async () => {
-      const eventuallyErr = new EventualResult(Promise.resolve(Err("err")));
+    await t.step("that resolves to an `Err`", async () => {
+      const eventuallyErr = new EventualResult(Promise.resolve(new Err("err")));
       const err = await eventuallyErr;
 
-      assertEquals(err, Err("err"));
+      assertEquals(err, new Err("err"));
     });
 
     await t.step("that rejects", async () => {
       const eventuallyErr = new EventualResult(Promise.reject("err"));
       const err = await eventuallyErr;
 
-      assertEquals(err, Err("err"));
+      assertEquals(err, new Err("err"));
     });
   });
 
@@ -39,7 +39,7 @@ Deno.test("creation", async (t) => {
     const eventuallyOk = new EventualResult(() => Promise.resolve("ok"));
     const ok = await eventuallyOk;
 
-    assertEquals(ok, Ok("ok"));
+    assertEquals(ok, new Ok("ok"));
   });
 
   await t.step("from an async function", async () => {
@@ -48,7 +48,7 @@ Deno.test("creation", async (t) => {
     );
     const ok = await eventuallyOk;
 
-    assertEquals(ok, Ok("ok"));
+    assertEquals(ok, new Ok("ok"));
   });
 });
 
@@ -57,14 +57,14 @@ Deno.test("#map", async (t) => {
     const eventuallyOk = new EventualResult(Promise.resolve("ok"));
     const eventuallyOkLength = eventuallyOk.map((value) => value.length);
 
-    assertEquals(await eventuallyOkLength, Ok(2));
+    assertEquals(await eventuallyOkLength, new Ok(2));
 
     const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
     const eventuallyErrLength = eventuallyErr.map((value: string) =>
       value.length
     );
 
-    assertEquals(await eventuallyErrLength, Err("err"));
+    assertEquals(await eventuallyErrLength, new Err("err"));
   });
 
   await t.step("when returning a `Promise`", async () => {
@@ -72,14 +72,14 @@ Deno.test("#map", async (t) => {
     const eventuallyOkLength: EventualResult<number, unknown> = eventuallyOk
       .map((value) => Promise.resolve(value.length));
 
-    assertEquals(await eventuallyOkLength, Ok(2));
+    assertEquals(await eventuallyOkLength, new Ok(2));
 
     const eventuallyErr = new EventualResult<never>(Promise.reject("err"));
     const eventuallyErrLength = eventuallyErr.map((value: string) =>
       Promise.resolve(value.length)
     );
 
-    assertEquals(await eventuallyErrLength, Err("err"));
+    assertEquals(await eventuallyErrLength, new Err("err"));
   });
 });
 
@@ -164,41 +164,41 @@ Deno.test("#andThen", async (t) => {
     await t.step("and the promise resolves", async () => {
       const eventuallyOk = new EventualResult(Promise.resolve("ok"));
       const eventuallyExcited = eventuallyOk.andThen((value) =>
-        Ok(`${value}!`)
+        new Ok(`${value}!`)
       );
 
       assert(eventuallyExcited instanceof EventualResult);
-      assertEquals(await eventuallyExcited, Ok("ok!"));
+      assertEquals(await eventuallyExcited, new Ok("ok!"));
     });
 
     await t.step("and the promise rejects", async () => {
       const eventuallyErr = new EventualResult(Promise.reject("err"));
       const eventuallyExcited = eventuallyErr.andThen((value) =>
-        Ok(`${value}!`)
+        new Ok(`${value}!`)
       );
 
       assert(eventuallyExcited instanceof EventualResult);
-      assertEquals(await eventuallyExcited, Err("err"));
+      assertEquals(await eventuallyExcited, new Err("err"));
     });
   });
 
   await t.step("when the operation returns an `Err`", async (t) => {
     await t.step("and the promise resolves", async () => {
       const eventuallyOk = new EventualResult(Promise.resolve("ok"));
-      const eventuallyOkThenErr = eventuallyOk.andThen(() => Err("err"));
+      const eventuallyOkThenErr = eventuallyOk.andThen(() => new Err("err"));
 
       assert(eventuallyOkThenErr instanceof EventualResult);
-      assertEquals(await eventuallyOkThenErr, Err("err"));
+      assertEquals(await eventuallyOkThenErr, new Err("err"));
     });
 
     await t.step("and the promise rejects", async () => {
       const eventuallyErr = new EventualResult(Promise.reject("err"));
       const eventuallyErrThenErr = eventuallyErr.andThen(() =>
-        Err(`then error`)
+        new Err(`then error`)
       );
 
       assert(eventuallyErrThenErr instanceof EventualResult);
-      assertEquals(await eventuallyErrThenErr, Err("err"));
+      assertEquals(await eventuallyErrThenErr, new Err("err"));
     });
   });
 
@@ -208,11 +208,11 @@ Deno.test("#andThen", async (t) => {
       const eventuallyBetter = eventuallyOk.andThen(async (value) => {
         const better = await Promise.resolve(value + "!");
 
-        return Ok(better);
+        return new Ok(better);
       });
 
       assert(eventuallyBetter instanceof EventualResult);
-      assertEquals(await eventuallyBetter, Ok("ok!"));
+      assertEquals(await eventuallyBetter, new Ok("ok!"));
     });
 
     await t.step("when the promise resolves to an `Err`", async () => {
@@ -220,11 +220,11 @@ Deno.test("#andThen", async (t) => {
       const eventuallyBetter = eventuallyOk.andThen(async (value) => {
         const better = await Promise.resolve(value + "!");
 
-        return Err(better);
+        return new Err(better);
       });
 
       assert(eventuallyBetter instanceof EventualResult);
-      assertEquals(await eventuallyBetter, Err("ok!"));
+      assertEquals(await eventuallyBetter, new Err("ok!"));
     });
 
     await t.step("when the promise rejects", async () => {
@@ -236,7 +236,7 @@ Deno.test("#andThen", async (t) => {
       });
 
       assert(eventuallyBetter instanceof EventualResult);
-      assertEquals(await eventuallyBetter, Err(new Error("boo")));
+      assertEquals(await eventuallyBetter, new Err(new Error("boo")));
     });
   });
 
@@ -247,7 +247,7 @@ Deno.test("#andThen", async (t) => {
     });
 
     assert(eventuallyBetter instanceof EventualResult);
-    assertEquals(await eventuallyBetter, Ok("ok!"));
+    assertEquals(await eventuallyBetter, new Ok("ok!"));
   });
 });
 

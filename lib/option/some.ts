@@ -54,11 +54,11 @@ export class SomeImpl<T> implements OptionMethods<T> {
   }
 
   okOr<E>(_err: E): Result<T, E> {
-    return Ok(this.val);
+    return new Ok(this.val);
   }
 
   okOrElse<E>(_err: () => E): Result<T, E> {
-    return Ok(this.val);
+    return new Ok(this.val);
   }
 }
 

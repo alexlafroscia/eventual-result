@@ -53,11 +53,11 @@ export class NoneImpl implements OptionMethods<never> {
   }
 
   okOr<E>(err: E): Result<never, E> {
-    return Err(err);
+    return new Err(err);
   }
 
   okOrElse<E>(err: () => E): Result<never, E> {
-    return Err(err());
+    return new Err(err());
   }
 }
 

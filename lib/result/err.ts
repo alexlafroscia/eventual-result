@@ -4,7 +4,7 @@ import { EventualResult } from "./eventual.ts";
 import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
-export class ErrImpl<E> implements ResultMethods<never, E> {
+export class Err<E> implements ResultMethods<never, E> {
   readonly isOk = false;
   readonly isErr = true;
 
@@ -30,16 +30,16 @@ export class ErrImpl<E> implements ResultMethods<never, E> {
     return this.val;
   }
 
-  andThen(): ErrImpl<E> {
+  andThen(): Err<E> {
     return this;
   }
 
-  map(): ErrImpl<E> {
+  map(): Err<E> {
     return this;
   }
 
-  mapErr<F>(op: (error: E) => F): ErrImpl<F> {
-    return Err(op(this.val));
+  mapErr<F>(op: (error: E) => F): Err<F> {
+    return new Err(op(this.val));
   }
 
   mapOr<U>(fallback: U, _op: (value: never) => U): U {
@@ -50,7 +50,7 @@ export class ErrImpl<E> implements ResultMethods<never, E> {
     return fallback();
   }
 
-  and<T>(_other: Result<T, E>): ErrImpl<E> {
+  and<T>(_other: Result<T, E>): Err<E> {
     return this;
   }
 
@@ -77,8 +77,4 @@ export class ErrImpl<E> implements ResultMethods<never, E> {
   get [Symbol.toStringTag]() {
     return "Err";
   }
-}
-
-export function Err<E>(value: E): ErrImpl<E> {
-  return new ErrImpl(value);
 }

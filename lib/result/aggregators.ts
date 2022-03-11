@@ -21,7 +21,7 @@ export function all<T, E>(results: Iterable<Result<T, E>>): Result<T[], E> {
     }
   }
 
-  return Ok(collection);
+  return new Ok(collection);
 }
 
 /**
@@ -43,5 +43,5 @@ export function any<T, E>(results: Iterable<Result<T, E>>): Result<T, E[]> {
     }
   }
 
-  return Err(collection);
+  return new Err(collection);
 }
