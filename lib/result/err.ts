@@ -8,14 +8,7 @@ export class ErrImpl<E> implements ResultMethods<never, E> {
   readonly isOk = false;
   readonly isErr = true;
 
-  /**
-   * The error being wrapped by the `Result`
-   */
-  private val: E;
-
-  constructor(value: E) {
-    this.val = value;
-  }
+  constructor(private val: E) {}
 
   unwrap(): never {
     throw new UnwrapError("Cannot unwrap `Err`", { cause: this.val });

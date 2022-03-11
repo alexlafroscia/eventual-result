@@ -8,14 +8,7 @@ export class OkImpl<T> implements ResultMethods<T, never> {
   readonly isOk = true;
   readonly isErr = false;
 
-  /**
-   * The value being wrapped by the `Result`
-   */
-  private val: T;
-
-  constructor(value: T) {
-    this.val = value;
-  }
+  constructor(private val: T) {}
 
   unwrap(): T {
     return this.val;
