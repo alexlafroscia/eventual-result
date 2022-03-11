@@ -4,6 +4,11 @@ import { EventualResult } from "./eventual.ts";
 import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
+/**
+ * Contains the error value of a `Result<T, E>`
+ *
+ * @template E The type of the error value
+ */
 export class Err<E> implements ResultMethods<never, E> {
   readonly isOk = false;
   readonly isErr = true;

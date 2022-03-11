@@ -2,6 +2,11 @@ import { type OptionMethods } from "./methods.ts";
 import { type Option } from "./option.ts";
 import { Ok, type Result } from "../result/mod.ts";
 
+/**
+ * Contains the value of an `Option<T>`
+ *
+ * @template T The type of the present value
+ */
 export class Some<T> implements OptionMethods<T> {
   readonly isSome = true;
 

@@ -61,4 +61,7 @@ class NoneImpl implements OptionMethods<never> {
   }
 }
 
+/**
+ * Represents no value in an `Option<T>`
+ */
 export const None = new NoneImpl();
