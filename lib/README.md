@@ -37,7 +37,7 @@ type Person = {
 
 function findPerson(id: number): Option<Person> {
   if (store.people.has({ id })) {
-    return Some(store.people.get({ id }));
+    return new Some(store.people.get({ id }));
   } else {
     return None;
   }
@@ -57,9 +57,9 @@ type Person = {
 
 function createAdult(name: string, age: number): Result<Person, string> {
   if (age < 18) {
-    return Err(`${age} is too young to be an adult`);
+    return new Err(`${age} is too young to be an adult`);
   } else {
-    return Ok({ name, age });
+    return new Ok({ name, age });
   }
 }
 ```
@@ -140,9 +140,9 @@ declare function isValid(content: string): boolean;
 
 function validateFile(content: string): Result<string, string> {
   if (isValid(content)) {
-    return Ok(content);
+    return new Ok(content);
   } else {
-    return Err("The file content is not valid");
+    return new Err("The file content is not valid");
   }
 }
 
@@ -152,7 +152,7 @@ async function readValidFile(path: string): Promise<Result<string, string>> {
 
     return validateFile(content);
   } catch (e: unknown) {
-    return Err(String(e));
+    return new Err(String(e));
   }
 }
 
@@ -196,9 +196,9 @@ declare function isValid(content: string): boolean;
 
 function validateFile(content: string): Result<string, string> {
   if (isValid(content)) {
-    return Ok(content);
+    return new Ok(content);
   } else {
-    return Err("The file content is not valid");
+    return new Err("The file content is not valid");
   }
 }
 
