@@ -10,15 +10,8 @@ import {
   type Release,
 } from "https://deno.land/x/changelog@v2.0.1/mod.ts";
 
-import { run } from "./deno-run.ts";
-import {
-  Err,
-  None,
-  Ok,
-  type Option,
-  type Result,
-  Some,
-} from "../../lib/mod.ts";
+import { run } from "./utils/deno-run.ts";
+import { Err, None, Ok, type Option, type Result, Some } from "../lib/mod.ts";
 
 /**
  * Get the version number to release from the CLI arguments
@@ -48,7 +41,7 @@ function getPendingRelease(changelog: Changelog): Option<Release> {
   return release ? new Some(release) : None;
 }
 
-const rootPath = resolve(dirname(fromFileUrl(import.meta.url)), "../../");
+const rootPath = resolve(dirname(fromFileUrl(import.meta.url)), "../");
 const changelogPath = resolve(rootPath, "./CHANGELOG.md");
 const changelog = parseChangelog(Deno.readTextFileSync(changelogPath));
 

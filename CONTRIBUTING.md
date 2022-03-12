@@ -17,7 +17,7 @@ pushed as well.
 A script exists to update the `CHANGELOG.md` and create the `git` tag:
 
 ```sh
-deno run -A ./scripts/release/bin.ts x.x.x
+deno run -A ./scripts/release.ts x.x.x
 ```
 
 Where `x.x.x` is the version you want to release.
