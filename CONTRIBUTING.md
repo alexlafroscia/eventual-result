@@ -14,10 +14,10 @@ Releases are created based purely on `git` tags pushed to GitHub;
 it's registry and a GitHub Action will create an `npm` release when tags are
 pushed as well.
 
-A script exists to update the `CHANGELOG.md` and create the `git` tag:
+A task exists to update the `CHANGELOG.md` and create the `git` tag:
 
 ```sh
-deno run -A ./scripts/release.ts x.x.x
+deno task release x.x.x
 ```
 
 Where `x.x.x` is the version you want to release.
