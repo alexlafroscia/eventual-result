@@ -100,7 +100,6 @@ const result = await getDesiredVersion()
       cmd: [
         "git",
         "tag",
-        "",
         `v${getDesiredVersion().unwrap()}`, // `.unwrap` here is clunky but passing state through callbacks sucks
       ],
       cwd: rootPath,
