@@ -16,7 +16,7 @@ export class Err<E> implements ResultMethods<never, E> {
   constructor(private val: E) {}
 
   unwrap(): never {
-    throw new UnwrapError("Cannot unwrap `Err`", { cause: this.val });
+    throw new UnwrapError("Cannot unwrap `Err`", this.val);
   }
 
   unwrapOr<T>(fallback: T): T {
@@ -24,7 +24,7 @@ export class Err<E> implements ResultMethods<never, E> {
   }
 
   expect(message: string): never {
-    throw new ExpectError(message, { cause: this.val });
+    throw new ExpectError(message, this.val);
   }
 
   unwrapErr(): E {

@@ -62,7 +62,7 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
     try {
       return await this.promise;
     } catch (err) {
-      throw new UnwrapError("Cannot unwrap `Err`", { cause: err });
+      throw new UnwrapError("Cannot unwrap `Err`", err);
     }
   }
 
@@ -90,7 +90,7 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
     try {
       return await this.promise;
     } catch (err) {
-      throw new ExpectError(message, { cause: err });
+      throw new ExpectError(message, err);
     }
   }
 

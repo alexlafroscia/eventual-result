@@ -28,11 +28,11 @@ export class Ok<T> implements ResultMethods<T, never> {
   }
 
   unwrapErr(): never {
-    throw new UnwrapError("Cannot unwrap `Ok` to `Err`", { cause: this.val });
+    throw new UnwrapError("Cannot unwrap `Ok` to `Err`", this.val);
   }
 
   expectErr(message: string): never {
-    throw new ExpectError(message, { cause: this.val });
+    throw new ExpectError(message, this.val);
   }
 
   andThen<U, E, OpResult extends Result<U, E>>(
