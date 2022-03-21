@@ -1,12 +1,16 @@
-import { type OptionMethods } from "./methods.ts";
 import { type Option } from "./option.ts";
+import { type Some } from "./some.ts";
 import { Err, type Result } from "../result/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
-class NoneImpl implements OptionMethods<never> {
-  readonly isSome = false;
+class NoneImpl implements Option<never> {
+  isSome(): this is Some<never> {
+    return false;
+  }
 
-  readonly isNone = true;
+  isNone(): this is typeof None {
+    return true;
+  }
 
   unwrap(): never {
     throw new UnwrapError("Cannot unwrap `None`");

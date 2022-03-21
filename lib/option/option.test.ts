@@ -100,18 +100,14 @@ Deno.test("discriminating `Some` from `None`", async (t) => {
   const result = toOption(1);
 
   await t.step("using `#isSome`", () => {
-    if (result.isSome) {
+    if (result.isSome()) {
       const _some: Some<number> = result;
-    } else {
-      const _none: typeof None = result;
     }
   });
 
   await t.step("using `#isNone`", () => {
-    if (result.isNone) {
+    if (result.isNone()) {
       const _none: typeof None = result;
-    } else {
-      const _some: Some<number> = result;
     }
   });
 });

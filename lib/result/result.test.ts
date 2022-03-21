@@ -58,9 +58,7 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
       });
 
       await t.step("and the callback returns `Err`", () => {
-        const result: Result<number, string> = divide(1, 2).andThen(() =>
-          new Err("Oops!")
-        );
+        const result = divide(1, 2).andThen(() => new Err("Oops!"));
 
         assertEquals(result, new Err("Oops!"));
       });
@@ -84,9 +82,7 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
       });
 
       await t.step("and the callback returns `Err`", () => {
-        const result: Result<number, string> = divide(1, 0).andThen(() =>
-          new Err("Oops!")
-        );
+        const result = divide(1, 0).andThen(() => new Err("Oops!"));
 
         assertEquals(result, new Err("You cannot divide by `0`"));
       });
@@ -155,7 +151,7 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
   await t.step("#err", () => {
     const result = divide(1, 2).err();
 
-    assertEquals(result.isNone, true);
+    assertEquals(result.isNone(), true);
   });
 });
 
@@ -167,18 +163,14 @@ Deno.test("discriminating `Ok` from `Err`", async (t) => {
   const result = divide(1, 2);
 
   await t.step("using `#isOk`", () => {
-    if (result.isOk) {
+    if (result.isOk()) {
       const _ok: Ok<number> = result;
-    } else {
-      const _err: Err<string> = result;
     }
   });
 
   await t.step("using `#isErr`", () => {
-    if (result.isErr) {
+    if (result.isErr()) {
       const _err: Err<string> = result;
-    } else {
-      const _ok: Ok<number> = result;
     }
   });
 });

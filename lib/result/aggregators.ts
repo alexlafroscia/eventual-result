@@ -14,9 +14,11 @@ export function all<T, E>(results: Iterable<Result<T, E>>): Result<T[], E> {
   const collection = [];
 
   for (const result of results) {
-    if (result.isOk) {
+    if (result.isOk()) {
       collection.push(result.unwrap());
-    } else {
+    }
+
+    if (result.isErr()) {
       return result;
     }
   }
@@ -36,9 +38,11 @@ export function any<T, E>(results: Iterable<Result<T, E>>): Result<T, E[]> {
   const collection = [];
 
   for (const result of results) {
-    if (result.isErr) {
+    if (result.isErr()) {
       collection.push(result.unwrapErr());
-    } else {
+    }
+
+    if (result.isOk()) {
       return result;
     }
   }

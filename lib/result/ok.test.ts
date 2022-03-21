@@ -12,13 +12,13 @@ import { ExpectError, UnwrapError } from "../exceptions.ts";
 Deno.test("#isOk", () => {
   const ok = new Ok("whatever");
 
-  assertEquals(ok.isOk, true);
+  assertEquals(ok.isOk(), true);
 });
 
 Deno.test("#isErr", () => {
   const ok = new Ok("whatever");
 
-  assertEquals(ok.isErr, false);
+  assertEquals(ok.isErr(), false);
 });
 
 Deno.test("#unwrap", () => {

@@ -1,5 +1,5 @@
-import { type OptionMethods } from "./methods.ts";
 import { type Option } from "./option.ts";
+import { type None } from "./none.ts";
 import { Ok, type Result } from "../result/mod.ts";
 
 /**
@@ -7,10 +7,14 @@ import { Ok, type Result } from "../result/mod.ts";
  *
  * @template T The type of the present value
  */
-export class Some<T> implements OptionMethods<T> {
-  readonly isSome = true;
+export class Some<T> implements Option<T> {
+  isSome(): this is Some<T> {
+    return true;
+  }
 
-  readonly isNone = false;
+  isNone(): this is typeof None {
+    return false;
+  }
 
   constructor(private val: T) {}
 

@@ -1,5 +1,5 @@
-import { type ResultMethods } from "./methods.ts";
 import { type Result } from "./result.ts";
+import { type Ok } from "./ok.ts";
 import { EventualResult } from "./eventual.ts";
 import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
@@ -9,11 +9,16 @@ import { ExpectError, UnwrapError } from "../exceptions.ts";
  *
  * @template E The type of the error value
  */
-export class Err<E> implements ResultMethods<never, E> {
-  readonly isOk = false;
-  readonly isErr = true;
-
+export class Err<E> implements Result<never, E> {
   constructor(private val: E) {}
+
+  isOk(): this is Ok<never> {
+    return false;
+  }
+
+  isErr(): this is Err<E> {
+    return true;
+  }
 
   unwrap(): never {
     throw new UnwrapError("Cannot unwrap `Err`", this.val);
