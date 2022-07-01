@@ -16,7 +16,7 @@ type Output = {
 export function run(
   options: RunOptions,
 ): EventualResult<Output, Output> {
-  return new EventualResult(async () => {
+  return new EventualResult<Output, Output>(async () => {
     const p = Deno.run({
       ...options,
       // stdin: "null",

@@ -106,7 +106,7 @@ const result = await getDesiredVersion()
     });
   });
 
-if (result.isOk) {
+if (result.isOk()) {
   console.log("Done!");
 } else {
   console.error(result.unwrapErr());
