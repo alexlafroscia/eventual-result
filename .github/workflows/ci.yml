@@ -5,6 +5,17 @@ on:
   pull_request:
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - run: deno check lib/mod.ts
+      - run: deno check scripts/build_npm.ts
+      - run: deno check scripts/release.ts
+
   fmt:
     runs-on: ubuntu-latest
     steps:
