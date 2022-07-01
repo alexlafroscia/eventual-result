@@ -1,3 +1,12 @@
 {
-  "deno.enable": true
+  "deno.enable": true,
+
+  // Try to use the Deno formatter where we can
+  "editor.defaultFormatter": "denoland.vscode-deno",
+
+  "[typescript]": {
+    // My editor uses Prettier by default for TypeScript files
+    // We want to make sure that Deno's formatter is used instead
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  }
 }
