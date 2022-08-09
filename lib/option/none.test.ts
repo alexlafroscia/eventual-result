@@ -63,3 +63,12 @@ Deno.test("#okOr", () => {
 Deno.test("#okOrElse", () => {
   assertEquals(None.okOrElse(() => "error"), new Err("error"));
 });
+
+Deno.test("mutating `None`", () => {
+  assertThrows(() => {
+    // @ts-expect-error: `None` is known to be `ReadOnly` by TypeScript, but we want to ignore that
+    None.unwrap = () => {
+      throw new Error("whatever");
+    };
+  });
+});

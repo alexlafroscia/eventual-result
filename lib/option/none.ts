@@ -59,7 +59,7 @@ class NoneImpl implements Option<never> {
 /**
  * Represents no value in an `Option<T>`
  */
-export const None = new NoneImpl();
+export const None = Object.freeze(new NoneImpl());
 
 /**
  * Determines whether an `Option<T>` is `None`
