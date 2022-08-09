@@ -21,6 +21,9 @@ import { type Option } from "../option/mod.ts";
  *   // `result` is known to be `Err`
  * }
  * ```
+ *
+ * @template T - The type of the success value
+ * @template E - The type of the error value
  */
 export interface Result<T, E> {
   /**
