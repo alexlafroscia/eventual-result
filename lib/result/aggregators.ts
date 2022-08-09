@@ -1,6 +1,6 @@
 import { type Result } from "./result.ts";
-import { Ok } from "./ok.ts";
-import { Err } from "./err.ts";
+import { isOk, Ok } from "./ok.ts";
+import { Err, isErr } from "./err.ts";
 
 /**
  * Combine an iterable of `Result<T, E>` into a single `Result<T[], E>`
@@ -14,11 +14,11 @@ export function all<T, E>(results: Iterable<Result<T, E>>): Result<T[], E> {
   const collection = [];
 
   for (const result of results) {
-    if (result.isOk()) {
+    if (isOk(result)) {
       collection.push(result.unwrap());
     }
 
-    if (result.isErr()) {
+    if (isErr(result)) {
       return result;
     }
   }
@@ -38,11 +38,11 @@ export function any<T, E>(results: Iterable<Result<T, E>>): Result<T, E[]> {
   const collection = [];
 
   for (const result of results) {
-    if (result.isErr()) {
+    if (isErr(result)) {
       collection.push(result.unwrapErr());
     }
 
-    if (result.isOk()) {
+    if (isOk(result)) {
       return result;
     }
   }

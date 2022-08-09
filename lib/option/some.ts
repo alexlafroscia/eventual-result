@@ -1,5 +1,4 @@
 import { type Option } from "./option.ts";
-import { type None } from "./none.ts";
 import { Ok, type Result } from "../result/mod.ts";
 
 /**
@@ -8,14 +7,6 @@ import { Ok, type Result } from "../result/mod.ts";
  * @template T The type of the present value
  */
 export class Some<T> implements Option<T> {
-  isSome(): this is Some<T> {
-    return true;
-  }
-
-  isNone(): this is typeof None {
-    return false;
-  }
-
   constructor(private val: T) {}
 
   unwrap(): T {
@@ -69,4 +60,11 @@ export class Some<T> implements Option<T> {
   okOrElse<E>(_err: () => E): Result<T, E> {
     return new Ok(this.val);
   }
+}
+
+/**
+ * Determines whether an `Option<T>` is `Some<T>`
+ */
+export function isSome<T>(option: Option<T>): option is Some<T> {
+  return option instanceof Some;
 }

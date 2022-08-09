@@ -11,7 +11,15 @@ import {
 } from "https://deno.land/x/changelog@v2.0.1/mod.ts";
 
 import { run } from "./utils/deno-run.ts";
-import { Err, None, Ok, type Option, type Result, Some } from "../lib/mod.ts";
+import {
+  Err,
+  isOk,
+  None,
+  Ok,
+  type Option,
+  type Result,
+  Some,
+} from "../lib/mod.ts";
 
 /**
  * Get the version number to release from the CLI arguments
@@ -106,7 +114,7 @@ const result = await getDesiredVersion()
     });
   });
 
-if (result.isOk()) {
+if (isOk(result)) {
   console.log("Done!");
 } else {
   console.error(result.unwrapErr());

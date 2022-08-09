@@ -1,13 +1,14 @@
 import { assertEquals } from "../test-deps.ts";
-import { Some } from "./some.ts";
+import { isSome, Some } from "./some.ts";
+import { isNone } from "./none.ts";
 import { Ok } from "../result/mod.ts";
 
-Deno.test("#isSome", () => {
-  assertEquals(new Some(1).isSome(), true);
+Deno.test("isSome", () => {
+  assertEquals(isSome(new Some(1)), true);
 });
 
-Deno.test("#isNone", () => {
-  assertEquals(new Some(1).isNone(), false);
+Deno.test("isNone", () => {
+  assertEquals(isNone(new Some(1)), false);
 });
 
 Deno.test("#unwrap", () => {

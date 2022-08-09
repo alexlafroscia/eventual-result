@@ -1,22 +1,28 @@
-import { type Ok } from "./ok.ts";
-import { type Err } from "./err.ts";
 import { type EventualResult } from "./eventual.ts";
 import { type Option } from "../option/mod.ts";
 
 /**
  * `Result` is a type that represents either success (`Ok`) or failure (`Err`)
+ *
+ * @example Narrowing a `Result` into an `Ok`
+ * ```ts
+ * const result: Result<string, string> = produceResult();
+ *
+ * if (isOk(result)) {
+ *   // `result` is known to be `Ok`
+ * }
+ * ```
+ *
+ * @example Narrowing a `Result` into an `Err`
+ * ```ts
+ * const result: Result<string, string> = produceResult();
+ *
+ * if (isErr(result)) {
+ *   // `result` is known to be `Err`
+ * }
+ * ```
  */
 export interface Result<T, E> {
-  /**
-   * Is `true` is the result is `Ok`
-   */
-  isOk(): this is Ok<T>;
-
-  /**
-   * Is `true` is the result is `Err`
-   */
-  isErr(): this is Err<E>;
-
   /**
    * Returns the inner value if the `Result` is an `Ok`
    *

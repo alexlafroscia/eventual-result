@@ -1,17 +1,8 @@
 import { type Option } from "./option.ts";
-import { type Some } from "./some.ts";
 import { Err, type Result } from "../result/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
 class NoneImpl implements Option<never> {
-  isSome(): this is Some<never> {
-    return false;
-  }
-
-  isNone(): this is typeof None {
-    return true;
-  }
-
   unwrap(): never {
     throw new UnwrapError("Cannot unwrap `None`");
   }
@@ -68,4 +59,11 @@ class NoneImpl implements Option<never> {
 /**
  * Represents no value in an `Option<T>`
  */
-export const None = new NoneImpl();
+export const None = Object.freeze(new NoneImpl());
+
+/**
+ * Determines whether an `Option<T>` is `None`
+ */
+export function isNone(option: Option<unknown>): option is NoneImpl {
+  return option === None;
+}

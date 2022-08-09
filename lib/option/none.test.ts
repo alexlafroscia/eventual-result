@@ -1,14 +1,15 @@
 import { assertEquals, assertThrows } from "../test-deps.ts";
-import { None } from "./none.ts";
+import { isSome } from "./some.ts";
+import { isNone, None } from "./none.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 import { Err } from "../result/err.ts";
 
-Deno.test("#isSome", () => {
-  assertEquals(None.isSome(), false);
+Deno.test("isSome", () => {
+  assertEquals(isSome(None), false);
 });
 
-Deno.test("#isNone", () => {
-  assertEquals(None.isNone(), true);
+Deno.test("isNone", () => {
+  assertEquals(isNone(None), true);
 });
 
 Deno.test("#unwrap", () => {
@@ -61,4 +62,13 @@ Deno.test("#okOr", () => {
 
 Deno.test("#okOrElse", () => {
   assertEquals(None.okOrElse(() => "error"), new Err("error"));
+});
+
+Deno.test("mutating `None`", () => {
+  assertThrows(() => {
+    // @ts-expect-error: `None` is known to be `ReadOnly` by TypeScript, but we want to ignore that
+    None.unwrap = () => {
+      throw new Error("whatever");
+    };
+  });
 });
