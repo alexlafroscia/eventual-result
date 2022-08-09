@@ -1,11 +1,6 @@
-import { type Some } from "./some.ts";
-import { type None } from "./none.ts";
 import { type Result } from "../result/mod.ts";
 
 export interface Option<T> {
-  isSome(): this is Some<T>;
-  isNone(): this is typeof None;
-
   unwrap(): T;
   unwrapOr(fallback: T): T;
   unwrapOrElse(fallback: () => T): T;

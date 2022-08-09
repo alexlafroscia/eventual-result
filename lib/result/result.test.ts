@@ -2,6 +2,7 @@ import { assertEquals } from "../test-deps.ts";
 import { type Result } from "./result.ts";
 import { Ok } from "./ok.ts";
 import { Err } from "./err.ts";
+import { None } from "../option/none.ts";
 
 function divide(a: number, b: number): Result<number, string> {
   if (b === 0) {
@@ -151,6 +152,6 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
   await t.step("#err", () => {
     const result = divide(1, 2).err();
 
-    assertEquals(result.isNone(), true);
+    assertEquals(result, None);
   });
 });

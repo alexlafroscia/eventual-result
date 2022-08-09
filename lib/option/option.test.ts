@@ -92,23 +92,3 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
     assert(isOk(result));
   });
 });
-
-// These tests ensure that `isSome` and `isNone` actually discriminate an
-// `Option<T>` into either a `Some<T>` or a `None`. The "test" here are the
-// assignments to narrower types within the `if`/`else` statement: this code
-// won't compile if the intended behavior in the type system is not working
-Deno.test("discriminating `Some` from `None`", async (t) => {
-  const result = toOption(1);
-
-  await t.step("using `#isSome`", () => {
-    if (result.isSome()) {
-      const _some: Some<number> = result;
-    }
-  });
-
-  await t.step("using `#isNone`", () => {
-    if (result.isNone()) {
-      const _none: typeof None = result;
-    }
-  });
-});

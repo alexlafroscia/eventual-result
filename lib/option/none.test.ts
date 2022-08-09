@@ -1,14 +1,15 @@
 import { assertEquals, assertThrows } from "../test-deps.ts";
-import { None } from "./none.ts";
+import { isSome } from "./some.ts";
+import { isNone, None } from "./none.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 import { Err } from "../result/err.ts";
 
-Deno.test("#isSome", () => {
-  assertEquals(None.isSome(), false);
+Deno.test("isSome", () => {
+  assertEquals(isSome(None), false);
 });
 
-Deno.test("#isNone", () => {
-  assertEquals(None.isNone(), true);
+Deno.test("isNone", () => {
+  assertEquals(isNone(None), true);
 });
 
 Deno.test("#unwrap", () => {

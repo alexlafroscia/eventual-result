@@ -1,3 +1,3 @@
 export { type Option } from "./option.ts";
-export { Some } from "./some.ts";
-export { None } from "./none.ts";
+export { isSome, Some } from "./some.ts";
+export { isNone, None } from "./none.ts";
