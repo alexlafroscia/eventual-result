@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Added
+
+- `isSome`, `isNone`, `isOk` and `isErr` helper functions
+- `None` is now immutable
+
+### Removed
+
+- `isSome`, `isNone`, `isOk` and `isErr` methods have been removed
+
 ## 0.6.0 - 2022-08-09
 
 ### Added
