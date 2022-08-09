@@ -2,6 +2,8 @@
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
     // Update changelog and tag a new release
-    "release": "deno run -A ./scripts/release.ts"
+    "release": "deno run -A ./scripts/release.ts",
+    // Ensure the changelog is valid
+    "validate-changelog": "deno run -A ./scripts/validate_changelog.ts"
   }
 }
