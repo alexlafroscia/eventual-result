@@ -154,23 +154,3 @@ Deno.test("method signatures of `Ok` and `Err` align", async (t) => {
     assertEquals(result.isNone(), true);
   });
 });
-
-// These tests ensure that `isOk` and `isErr` actually discriminate a `Result<T, E>`
-// into either an `Ok<T>` or an `Err<E>`. The "test" here are the assignments
-// to narrower types within the `if`/`else` statement: this code won't compile if the
-// intended behavior in the type system is not working
-Deno.test("discriminating `Ok` from `Err`", async (t) => {
-  const result = divide(1, 2);
-
-  await t.step("using `#isOk`", () => {
-    if (result.isOk()) {
-      const _ok: Ok<number> = result;
-    }
-  });
-
-  await t.step("using `#isErr`", () => {
-    if (result.isErr()) {
-      const _err: Err<string> = result;
-    }
-  });
-});

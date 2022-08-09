@@ -3,21 +3,22 @@ import {
   assertStrictEquals,
   assertThrows,
 } from "../test-deps.ts";
-import { Err } from "./err.ts";
+import { isOk } from "./ok.ts";
+import { Err, isErr } from "./err.ts";
 import { EventualResult } from "./eventual.ts";
 import { None, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
 
-Deno.test("#isOk", () => {
+Deno.test("isOk", () => {
   const err = new Err("whatever");
 
-  assertEquals(err.isOk(), false);
+  assertEquals(isOk(err), false);
 });
 
-Deno.test("#isErr", () => {
+Deno.test("isErr", () => {
   const err = new Err("whatever");
 
-  assertEquals(err.isErr(), true);
+  assertEquals(isErr(err), true);
 });
 
 Deno.test("#unwrap", () => {

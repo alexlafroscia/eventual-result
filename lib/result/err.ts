@@ -1,5 +1,4 @@
 import { type Result } from "./result.ts";
-import { type Ok } from "./ok.ts";
 import { EventualResult } from "./eventual.ts";
 import { None, type Option, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
@@ -11,14 +10,6 @@ import { ExpectError, UnwrapError } from "../exceptions.ts";
  */
 export class Err<E> implements Result<never, E> {
   constructor(private val: E) {}
-
-  isOk(): this is Ok<never> {
-    return false;
-  }
-
-  isErr(): this is Err<E> {
-    return true;
-  }
 
   unwrap(): never {
     throw new UnwrapError("Cannot unwrap `Err`", this.val);
@@ -87,4 +78,11 @@ export class Err<E> implements Result<never, E> {
   get [Symbol.toStringTag]() {
     return "Err";
   }
+}
+
+/**
+ * Determines whether a `Result<T, E>` is `Err<E>`
+ */
+export function isErr<E>(result: Result<unknown, E>): result is Err<E> {
+  return result instanceof Err;
 }
