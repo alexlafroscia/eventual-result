@@ -7,6 +7,8 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Added
+
 - Add `mapErr` method to `EventualResult`
 
 ### Changed
