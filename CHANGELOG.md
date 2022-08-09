@@ -7,6 +7,8 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+- Add `mapErr` method to `EventualResult`
+
 ### Changed
 
 - Removed distinct `Option` union type and `OptionMethods` interface in favor of

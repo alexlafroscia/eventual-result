@@ -83,6 +83,36 @@ Deno.test("#map", async (t) => {
   });
 });
 
+Deno.test("#mapErr", async (t) => {
+  const eventuallyErr = new EventualResult<never, string>(
+    Promise.reject("err"),
+  );
+
+  await t.step("when returning a value", async () => {
+    const eventuallyErrLength = eventuallyErr.mapErr((errString) =>
+      errString.length
+    );
+
+    assertEquals(await eventuallyErrLength, new Err(3));
+  });
+
+  await t.step("when returning a resolving `Promise`", async () => {
+    const eventuallyErrLength = eventuallyErr.mapErr((errString) =>
+      Promise.resolve(errString.length)
+    );
+
+    assertEquals(await eventuallyErrLength, new Err(3));
+  });
+
+  await t.step("when returning a rejecting `Promise`", async () => {
+    const eventuallyErrLength = eventuallyErr.mapErr((errString) =>
+      Promise.reject(errString.length)
+    );
+
+    assertEquals(await eventuallyErrLength, new Err(3));
+  });
+});
+
 Deno.test("#mapOr", async (t) => {
   await t.step("when returning a value", async () => {
     const eventuallyOk = new EventualResult(Promise.resolve("ok"));
