@@ -81,6 +81,31 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
   }
 
   /**
+   * Resolves to the underlying error if `EventualResult` rejects
+   *
+   * Returns a rejecting `Promise` if the `EventualResult` represents a success
+   */
+  async unwrapErr(): Promise<E> {
+    try {
+      // Resolve the promise to see if it results in an error
+      await this.promise;
+
+      // If that "passed", we shouldn't be able to unwrap to an error
+      throw new UnwrapError(
+        "Cannot unwrap resolving `EventualResult` to `Err`",
+      );
+    } catch (e) {
+      // If we re-caught the error we just threw, throw it again
+      if (e instanceof UnwrapError) {
+        throw e;
+      }
+
+      // Otherwise, return the error
+      return e;
+    }
+  }
+
+  /**
    * Converts the `EventualResult` to a `Promise`
    *
    * The `Promise` will resolve to the `Ok` value or reject with the given
