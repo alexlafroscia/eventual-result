@@ -42,6 +42,14 @@ Deno.test("creation", async (t) => {
     assertEquals(ok, new Ok("ok"));
   });
 
+  await t.step("from a function that throws an error", async () => {
+    const eventuallyErr = new EventualResult(() => {
+      throw "Oops!";
+    });
+
+    assertEquals(await eventuallyErr.unwrapErr(), "Oops!");
+  });
+
   await t.step("from an async function", async () => {
     const eventuallyOk = new EventualResult(async () =>
       await Promise.resolve("ok")
