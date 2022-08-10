@@ -307,6 +307,20 @@ Deno.test("#unwrapOr", async () => {
   assertEquals(await eventuallyErr.unwrapOr("other"), "other");
 });
 
+Deno.test("#unwrapErr", async (t) => {
+  await t.step("with a successful value", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+
+    await assertRejects(() => eventuallyOk.unwrapErr(), UnwrapError);
+  });
+
+  await t.step("with an error value", async () => {
+    const eventuallyError = new EventualResult(Promise.reject("error"));
+
+    assertEquals(await eventuallyError.unwrapErr(), "error");
+  });
+});
+
 Deno.test("#expect", async () => {
   const eventuallyOk = new EventualResult(Promise.resolve("ok"));
 
