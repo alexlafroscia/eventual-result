@@ -1,4 +1,4 @@
-import { assert, assertEquals } from "../test-deps.ts";
+import { assert, assertEquals } from "std/testing/asserts.ts";
 import { Err, EventualResult, Ok } from "../result/mod.ts";
 import { run } from "./run.ts";
 
@@ -13,7 +13,7 @@ Deno.test("throwing an error", () => {
     throw "failure";
   });
 
-  assertEquals(result, new Err("failure"));
+  assertEquals<unknown>(result, new Err("failure"));
 });
 
 Deno.test("a resolving promise", async () => {

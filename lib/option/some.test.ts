@@ -1,4 +1,4 @@
-import { assertEquals } from "../test-deps.ts";
+import { assertEquals } from "std/testing/asserts.ts";
 import { isSome, Some } from "./some.ts";
 import { isNone } from "./none.ts";
 import { Ok } from "../result/mod.ts";

@@ -1,5 +1,6 @@
 {
   "deno.enable": true,
+  "deno.importMap": "./import_map.json",
 
   // Try to use the Deno formatter where we can
   "editor.defaultFormatter": "denoland.vscode-deno",

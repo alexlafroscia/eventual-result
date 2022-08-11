@@ -2,7 +2,7 @@ import {
   assertEquals,
   assertStrictEquals,
   assertThrows,
-} from "../test-deps.ts";
+} from "std/testing/asserts.ts";
 import { isOk } from "./ok.ts";
 import { Err, isErr } from "./err.ts";
 import { EventualResult } from "./eventual.ts";

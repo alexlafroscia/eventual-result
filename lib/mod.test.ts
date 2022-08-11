@@ -1,4 +1,4 @@
-import { assertExists } from "./test-deps.ts";
+import { assertExists } from "std/testing/asserts.ts";
 import * as mod from "./mod.ts";
 
 Deno.test("module exports", () => {

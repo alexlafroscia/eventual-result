@@ -1,4 +1,4 @@
-import { assert, assertEquals, assertRejects } from "../test-deps.ts";
+import { assert, assertEquals, assertRejects } from "std/testing/asserts.ts";
 import { Ok } from "./ok.ts";
 import { Err } from "./err.ts";
 import { EventualResult } from "./eventual.ts";
@@ -117,7 +117,7 @@ Deno.test("#mapErr", async (t) => {
       Promise.reject(errString.length)
     );
 
-    assertEquals(await eventuallyErrLength, new Err(3));
+    assertEquals<unknown>(await eventuallyErrLength, new Err(3));
   });
 });
 
