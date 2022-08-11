@@ -117,7 +117,7 @@ Deno.test("#mapErr", async (t) => {
       Promise.reject(errString.length)
     );
 
-    assertEquals(await eventuallyErrLength, new Err(3));
+    assertEquals<unknown>(await eventuallyErrLength, new Err(3));
   });
 });
 

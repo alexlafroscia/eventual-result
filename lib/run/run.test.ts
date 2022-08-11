@@ -13,7 +13,7 @@ Deno.test("throwing an error", () => {
     throw "failure";
   });
 
-  assertEquals(result, new Err("failure"));
+  assertEquals<unknown>(result, new Err("failure"));
 });
 
 Deno.test("a resolving promise", async () => {
