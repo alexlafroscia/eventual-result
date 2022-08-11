@@ -1,4 +1,4 @@
-import { assert, assertEquals } from "../test-deps.ts";
+import { assert, assertEquals } from "std/testing/asserts.ts";
 import { type Option } from "./option.ts";
 import { Some } from "./some.ts";
 import { None } from "./none.ts";

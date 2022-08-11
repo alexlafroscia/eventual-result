@@ -1,4 +1,4 @@
-import { assert, assertEquals } from "../test-deps.ts";
+import { assert, assertEquals } from "std/testing/asserts.ts";
 import { Err, EventualResult, Ok } from "../result/mod.ts";
 import { run } from "./run.ts";
 

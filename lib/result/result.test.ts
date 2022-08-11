@@ -1,4 +1,4 @@
-import { assertEquals } from "../test-deps.ts";
+import { assertEquals } from "std/testing/asserts.ts";
 import { type Result } from "./result.ts";
 import { Ok } from "./ok.ts";
 import { Err } from "./err.ts";

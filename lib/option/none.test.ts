@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows } from "../test-deps.ts";
+import { assertEquals, assertThrows } from "std/testing/asserts.ts";
 import { isSome } from "./some.ts";
 import { isNone, None } from "./none.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
