@@ -57,11 +57,11 @@ export class Ok<T> implements Result<T, never> {
     return other;
   }
 
-  or<E>(_other: Result<T, E>): Result<T, E> {
+  or<F>(_other: Result<T, F>): Result<T, F> {
     return this;
   }
 
-  orElse<E>(_other: () => Result<T, E>): Result<T, E> {
+  orElse<E, F>(_other: (val: E) => Result<T, F>): Result<T, F> {
     return this;
   }
 

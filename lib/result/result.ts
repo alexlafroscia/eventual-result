@@ -115,7 +115,7 @@ export interface Result<T, E> {
    * This might be used instead of `#or` if the alternative is costly to compute,
    * since the `other` function is only evaluated if needed.
    */
-  orElse(other: () => Result<T, E>): Result<T, E>;
+  orElse<F>(other: (val: E) => Result<T, F>): Result<T, F>;
 
   /**
    * Converts from `Result<T, E>` to `Option<T>`

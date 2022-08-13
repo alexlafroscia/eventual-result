@@ -196,7 +196,7 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
    *
    * Otherwise, returns itself
    */
-  or(other: EventualResult<T, E>): EventualResult<T, E> {
+  or<F>(other: EventualResult<T, F>): EventualResult<T, F> {
     return new EventualResult(this.promise.catch(() => {
       return other;
     }));
@@ -207,9 +207,9 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
    *
    * Otherwise, returns itself
    */
-  orElse(op: () => EventualResult<T, E>): EventualResult<T, E> {
-    return new EventualResult(this.promise.catch(() => {
-      return op();
+  orElse<F>(op: (val: E) => EventualResult<T, F>): EventualResult<T, F> {
+    return new EventualResult(this.promise.catch((val) => {
+      return op(val);
     }));
   }
 

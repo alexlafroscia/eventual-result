@@ -322,14 +322,14 @@ Deno.test("#orElse", async (t) => {
   });
 
   await t.step("when the `EventualResult` becomes an `Err`", async () => {
-    const eventuallyErr: EventualResult<string> = new EventualResult(
+    const eventuallyErr: EventualResult<unknown, string> = new EventualResult(
       Promise.reject("err"),
     );
     const okOrThisValue = eventuallyErr.orElse(
-      () => new EventualResult(Promise.resolve("me")),
+      (val: string) => new EventualResult(Promise.resolve(val + val)),
     );
 
-    assert(await okOrThisValue, "me");
+    assert(await okOrThisValue, "errerr");
   });
 });
 

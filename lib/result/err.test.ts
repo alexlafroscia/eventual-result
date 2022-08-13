@@ -3,8 +3,7 @@ import {
   assertStrictEquals,
   assertThrows,
 } from "std/testing/asserts.ts";
-import { isOk } from "./ok.ts";
-import { Err, isErr } from "./err.ts";
+import { Err, isErr, isOk, type Result } from "./mod.ts";
 import { EventualResult } from "./eventual.ts";
 import { None, Some } from "../option/mod.ts";
 import { ExpectError, UnwrapError } from "../exceptions.ts";
@@ -111,10 +110,10 @@ Deno.test("#or", () => {
 });
 
 Deno.test("#orElse", () => {
-  const err = new Err("foo");
-  const result = err.orElse(() => new Err("bar"));
+  const err: Result<string, string> = new Err("foo");
+  const result = err.orElse((val) => new Err(val.length));
 
-  assertEquals(result, new Err("bar"));
+  assertEquals(result, new Err(3));
 });
 
 Deno.test("#ok", () => {

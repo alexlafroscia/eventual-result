@@ -55,12 +55,12 @@ export class Err<E> implements Result<never, E> {
     return this;
   }
 
-  or<T>(other: Result<T, E>): Result<T, E> {
+  or<T, F>(other: Result<T, F>): Result<T, F> {
     return other;
   }
 
-  orElse<T>(other: () => Result<T, E>): Result<T, E> {
-    return other();
+  orElse<T, F>(other: (val: E) => Result<T, F>): Result<T, F> {
+    return other(this.val);
   }
 
   ok(): Option<never> {

@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Fixed
+
+- `#or` and `#orElse` can change the error type
+- `#orElse` receives the `Err` value from the object it is called on
+
 ## 0.9.0 - 2022-08-13
 
 ### Added
