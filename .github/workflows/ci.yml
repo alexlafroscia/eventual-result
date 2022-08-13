@@ -24,6 +24,7 @@ jobs:
       - run: deno check lib/mod.ts
       - run: deno check scripts/build_npm.ts
       - run: deno check scripts/release.ts
+      - run: deno check scripts/validate_changelog.ts
 
   fmt:
     runs-on: ubuntu-latest
