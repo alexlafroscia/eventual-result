@@ -191,6 +191,28 @@ export class EventualResult<T, E = unknown> implements Promise<Result<T, E>> {
     });
   }
 
+  /**
+   * Returns `other` if the result is eventually `Err`
+   *
+   * Otherwise, returns itself
+   */
+  or(other: EventualResult<T, E>): EventualResult<T, E> {
+    return new EventualResult(this.promise.catch(() => {
+      return other;
+    }));
+  }
+
+  /**
+   * Returns the result of `op` if the result is eventually `Err`
+   *
+   * Otherwise, returns itself
+   */
+  orElse(op: () => EventualResult<T, E>): EventualResult<T, E> {
+    return new EventualResult(this.promise.catch(() => {
+      return op();
+    }));
+  }
+
   /* === Promise Methods === */
 
   then<TResult1 = Result<T, E>, TResult2 = never>(

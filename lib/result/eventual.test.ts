@@ -289,6 +289,50 @@ Deno.test("#andThen", async (t) => {
   });
 });
 
+Deno.test("#or", async (t) => {
+  await t.step("when the `EventualResult` is successful", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+    const okOrThisValue = eventuallyOk.or(
+      new EventualResult(Promise.resolve("not me")),
+    );
+
+    assert(await okOrThisValue, "ok");
+  });
+
+  await t.step("when the `EventualResult` becomes an `Err`", async () => {
+    const eventuallyErr: EventualResult<string> = new EventualResult(
+      Promise.reject("err"),
+    );
+    const okOrThisValue = eventuallyErr.or(
+      new EventualResult(Promise.resolve("me")),
+    );
+
+    assert(await okOrThisValue, "me");
+  });
+});
+
+Deno.test("#orElse", async (t) => {
+  await t.step("when the `EventualResult` is successful", async () => {
+    const eventuallyOk = new EventualResult(Promise.resolve("ok"));
+    const okOrThisValue = eventuallyOk.orElse(
+      () => new EventualResult(Promise.resolve("not me")),
+    );
+
+    assert(await okOrThisValue, "ok");
+  });
+
+  await t.step("when the `EventualResult` becomes an `Err`", async () => {
+    const eventuallyErr: EventualResult<string> = new EventualResult(
+      Promise.reject("err"),
+    );
+    const okOrThisValue = eventuallyErr.orElse(
+      () => new EventualResult(Promise.resolve("me")),
+    );
+
+    assert(await okOrThisValue, "me");
+  });
+});
+
 Deno.test("#unwrap", async () => {
   const eventuallyOk = new EventualResult(Promise.resolve("ok"));
 
